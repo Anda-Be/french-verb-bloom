@@ -19,7 +19,7 @@ export const Route = createFileRoute("/tense/$slug")({
   loader: ({ params }) => {
     const tense = getTense(params.slug);
     if (!tense) throw notFound();
-    return { tense };
+    return tense;
   },
   notFoundComponent: () => (
     <div className="min-h-screen">
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/tense/$slug")({
 });
 
 function TensePage() {
-  const { tense } = Route.useLoaderData();
+  const tense = Route.useLoaderData();
   const idx = TENSES.findIndex((t) => t.slug === tense.slug);
   const prev = TENSES[idx - 1];
   const next = TENSES[idx + 1];
