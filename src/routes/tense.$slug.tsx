@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { display, getTense, PRONOUNS, TENSES } from "@/lib/tenses";
+import { display, getTense, PRONOUNS, TENSES, type Tense } from "@/lib/tenses";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/tense/$slug")({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/tense/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
+  loader: ({ params }): Tense => {
     const tense = getTense(params.slug);
     if (!tense) throw notFound();
     return tense;
