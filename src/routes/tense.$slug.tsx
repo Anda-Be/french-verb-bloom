@@ -37,7 +37,7 @@ export const Route = createFileRoute("/tense/$slug")({
 });
 
 function TensePage() {
-  const tense = Route.useLoaderData();
+  const tense = Route.useLoaderData() as Tense;
   const idx = TENSES.findIndex((t) => t.slug === tense.slug);
   const prev = TENSES[idx - 1];
   const next = TENSES[idx + 1];
