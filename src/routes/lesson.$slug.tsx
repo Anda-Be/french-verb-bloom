@@ -100,8 +100,30 @@ function LessonPage() {
           </div>
         </Section>
 
+        {/* Vocabulary */}
+        <Section number="3" title="Vocabular C1" subtitle="Idiomuri, phrasal verbs, colocații.">
+          <div className="overflow-hidden rounded-2xl border border-border bg-card">
+            <ul className="divide-y divide-border">
+              {lesson.vocabulary.map((v, i) => (
+                <li key={i} className="grid gap-1 p-4 sm:grid-cols-[1fr_2fr] sm:gap-4">
+                  <div>
+                    <div className="font-serif text-lg text-foreground">{v.term}</div>
+                    <span className="mt-1 inline-block rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {v.type}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-foreground/90">{v.meaning}</p>
+                    <p className="mt-1 text-sm italic text-muted-foreground">“{v.example}”</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Section>
+
         {/* Exercises */}
-        <Section number="3" title="Exerciții" subtitle="Verifică-te imediat.">
+        <Section number="4" title="Exerciții" subtitle="Completează, alege, transformă.">
           <div className="space-y-4">
             {lesson.exercises.map((ex, i) => (
               <ExerciseCard key={i} index={i + 1} ex={ex} />
@@ -110,12 +132,12 @@ function LessonPage() {
         </Section>
 
         {/* Free response */}
-        <Section number="4" title="Răspuns liber" subtitle="Produci tu limbaj.">
+        <Section number="5" title="Răspuns liber" subtitle="Produci tu limbaj.">
           <FreeResponse prompt={lesson.freePrompt.prompt} hint={lesson.freePrompt.hint} />
         </Section>
 
         {/* Mini-game */}
-        <Section number="5" title="Mini-joc: Match" subtitle="Asociază engleza cu româna.">
+        <Section number="6" title="Mini-joc: Match" subtitle="Asociază engleza cu româna.">
           <MatchGame pairs={lesson.match} />
         </Section>
 
