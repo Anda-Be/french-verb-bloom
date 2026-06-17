@@ -77,18 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "French tense learning" },
-      { name: "description", content: "Learn French verb tenses with this interactive web application." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "French tense learning" },
-      { property: "og:description", content: "Learn French verb tenses with this interactive web application." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "English in Real Life" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "French tense learning" },
-      { name: "twitter:description", content: "Learn French verb tenses with this interactive web application." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/de8c27ed-0962-44f3-9ed0-113116f6a3c2/id-preview-26041947--20f29f00-f753-499c-8888-6e0a7fe04d03.lovable.app-1781688734963.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/de8c27ed-0962-44f3-9ed0-113116f6a3c2/id-preview-26041947--20f29f00-f753-499c-8888-6e0a7fe04d03.lovable.app-1781688734963.png" },
     ],
     links: [
       {
@@ -100,6 +92,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "English in Real Life",
+          url: "https://french-verb-bloom.lovable.app",
+          inLanguage: ["ro", "en"],
+          description:
+            "Engleza pe care chiar o folosești — situații reale, nu liste abstracte.",
+        }),
       },
     ],
   }),
