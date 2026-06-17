@@ -399,4 +399,6 @@ export const LESSONS: Lesson[] = [
   },
 ];
 
-export const LESSONS_BY_SLUG = Object.fromEntries(LESSONS.map((l) => [l.slug, l]));
+export const LESSONS_BY_SLUG: Record<string, Lesson> = Object.fromEntries(
+  LESSONS.map((l) => [l.slug, l]),
+);
