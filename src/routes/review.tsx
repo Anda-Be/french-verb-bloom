@@ -313,3 +313,39 @@ function Stat({ label, value, accent }: { label: string; value: number; accent?:
     </div>
   );
 }
+
+function FilterChip({
+  label,
+  count,
+  active,
+  onClick,
+}: {
+  label: string;
+  count: number;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      className={[
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors",
+        active
+          ? "border-primary bg-primary/10 text-foreground"
+          : "border-border bg-background text-muted-foreground hover:border-primary/60 hover:text-foreground",
+      ].join(" ")}
+    >
+      <span>{label}</span>
+      <span
+        className={[
+          "rounded-full px-1.5 text-[10px]",
+          active ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground",
+        ].join(" ")}
+      >
+        {count}
+      </span>
+    </button>
+  );
+}
+
