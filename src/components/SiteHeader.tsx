@@ -14,7 +14,7 @@ export function SiteHeader() {
               English in Real Life
             </div>
             <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              Engleza pe care chiar o folosești
+              The English you actually use
             </div>
           </div>
         </Link>
@@ -25,7 +25,7 @@ export function SiteHeader() {
             className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
             activeProps={{ className: "rounded-md px-3 py-2 text-foreground bg-secondary font-medium" }}
           >
-            Lecții
+            Lessons
           </Link>
           <ThemeToggle />
         </nav>
@@ -38,7 +38,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-border/60">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-muted-foreground sm:flex-row">
-        <p className="font-serif italic">„Înveți o limbă folosind-o, nu memorând-o.”</p>
+        <p className="font-serif italic">“You learn a language by using it, not by memorising it.”</p>
         <p>© {new Date().getFullYear()} English in Real Life</p>
       </div>
     </footer>
