@@ -373,7 +373,20 @@ function FreeResponse({ prompt, hint }: { prompt: string; hint: string }) {
   );
 }
 
-type MatchState = "idle" | "wrong";
+function buildHint(translation: string): string {
+  // Reveal first letter of each meaningful word, mask the rest.
+  return translation
+    .split(/(\s+)/)
+    .map((chunk) => {
+      if (/^\s+$/.test(chunk)) return chunk;
+      // keep short connectors visible
+      if (chunk.length <= 2) return chunk;
+      const first = chunk[0];
+      const rest = chunk.slice(1).replace(/[A-Za-zĂÂÎȘȚăâîșț]/g, "·");
+      return first + rest;
+    })
+    .join("");
+}
 
 function MatchGame({ pairs }: { pairs: MatchPair[] }) {
   const left = pairs.map((p, i) => ({ id: i, text: p.en }));
@@ -385,57 +398,120 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
 
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
   const [matched, setMatched] = useState<Set<number>>(new Set());
-  const [shake, setShake] = useState<MatchState>("idle");
+  const [wrongRightId, setWrongRightId] = useState<number | null>(null);
+  const [attempts, setAttempts] = useState<Record<number, number>>({});
+  const [hintsFor, setHintsFor] = useState<Set<number>>(new Set());
+  const [hintsUsedCount, setHintsUsedCount] = useState(0);
+  const [totalAttempts, setTotalAttempts] = useState(0);
 
   const allDone = matched.size === pairs.length;
+  const wrongAttempts = Object.values(attempts).reduce((a, b) => a + b, 0);
+  const perfect = allDone && wrongAttempts === 0 && hintsUsedCount === 0;
+
+  function reset() {
+    setSelectedLeft(null);
+    setMatched(new Set());
+    setWrongRightId(null);
+    setAttempts({});
+    setHintsFor(new Set());
+    setHintsUsedCount(0);
+    setTotalAttempts(0);
+  }
 
   function pickLeft(id: number) {
     if (matched.has(id)) return;
     setSelectedLeft(id);
-    setShake("idle");
+    setWrongRightId(null);
   }
+
   function pickRight(id: number) {
     if (selectedLeft === null || matched.has(id)) return;
+    setTotalAttempts((n) => n + 1);
     if (selectedLeft === id) {
       const next = new Set(matched);
       next.add(id);
       setMatched(next);
       setSelectedLeft(null);
+      setWrongRightId(null);
     } else {
-      setShake("wrong");
-      setTimeout(() => setShake("idle"), 400);
-      setSelectedLeft(null);
+      setWrongRightId(id);
+      setAttempts((a) => {
+        const nextCount = (a[selectedLeft] ?? 0) + 1;
+        // Auto-reveal hint after 2 wrong attempts on the same pair
+        if (nextCount >= 2 && !hintsFor.has(selectedLeft)) {
+          setHintsFor((h) => new Set(h).add(selectedLeft));
+          setHintsUsedCount((n) => n + 1);
+        }
+        return { ...a, [selectedLeft]: nextCount };
+      });
+      setTimeout(() => setWrongRightId((cur) => (cur === id ? null : cur)), 600);
     }
   }
 
+  function revealHint() {
+    if (selectedLeft === null || hintsFor.has(selectedLeft)) return;
+    setHintsFor((h) => new Set(h).add(selectedLeft));
+    setHintsUsedCount((n) => n + 1);
+  }
+
+  const selectedHint =
+    selectedLeft !== null && hintsFor.has(selectedLeft)
+      ? buildHint(pairs[selectedLeft].ro)
+      : null;
+
   return (
     <div className="rounded-2xl border border-border bg-card p-5">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm text-muted-foreground">
           Click an English expression, then its Romanian meaning.
         </p>
-        <button
-          onClick={() => {
-            setMatched(new Set());
-            setSelectedLeft(null);
-          }}
-          className="text-xs text-primary hover:underline"
-        >
-          Reset
-        </button>
+        <div className="flex items-center gap-3 text-xs">
+          <span className="text-muted-foreground">
+            {matched.size}/{pairs.length} · {wrongAttempts} miss{wrongAttempts === 1 ? "" : "es"}
+            {hintsUsedCount > 0 && ` · ${hintsUsedCount} hint${hintsUsedCount === 1 ? "" : "s"}`}
+          </span>
+          <button
+            onClick={revealHint}
+            disabled={selectedLeft === null || (selectedLeft !== null && hintsFor.has(selectedLeft))}
+            className="rounded-md border border-border px-2 py-1 text-primary hover:border-primary/60 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            💡 Hint
+          </button>
+          <button onClick={reset} className="text-primary hover:underline">
+            Reset
+          </button>
+        </div>
       </div>
+
+      {selectedLeft !== null && !matched.has(selectedLeft) && (
+        <div className="mt-3 rounded-md border border-dashed border-border bg-background/60 px-3 py-2 text-xs text-muted-foreground">
+          Selected: <span className="font-serif text-foreground">{pairs[selectedLeft].en}</span>
+          {selectedHint && (
+            <span className="ml-2">
+              · hint: <span className="font-mono text-primary">{selectedHint}</span>
+            </span>
+          )}
+          {(attempts[selectedLeft] ?? 0) > 0 && !selectedHint && (
+            <span className="ml-2 text-destructive">
+              · {attempts[selectedLeft]} wrong — try again or use a hint
+            </span>
+          )}
+        </div>
+      )}
+
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
           {left.map((item) => {
             const done = matched.has(item.id);
             const sel = selectedLeft === item.id;
+            const wrongs = attempts[item.id] ?? 0;
             return (
               <button
                 key={item.id}
                 disabled={done}
                 onClick={() => pickLeft(item.id)}
                 className={[
-                  "w-full rounded-md border px-3 py-2 text-left text-sm transition-all",
+                  "w-full rounded-md border px-3 py-2 text-left text-sm transition-all flex items-center justify-between gap-2",
                   done
                     ? "border-success bg-success/10 text-muted-foreground line-through"
                     : sel
@@ -443,14 +519,25 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
                     : "border-border bg-background hover:border-primary/60",
                 ].join(" ")}
               >
-                {item.text}
+                <span>{item.text}</span>
+                {!done && wrongs > 0 && (
+                  <span className="shrink-0 rounded-full bg-destructive/10 px-1.5 text-[10px] text-destructive">
+                    ×{wrongs}
+                  </span>
+                )}
+                {!done && hintsFor.has(item.id) && (
+                  <span className="shrink-0 text-[10px]" aria-label="hint used">
+                    💡
+                  </span>
+                )}
               </button>
             );
           })}
         </div>
-        <div className={["space-y-2", shake === "wrong" ? "animate-pulse" : ""].join(" ")}>
+        <div className="space-y-2">
           {right.map((item) => {
             const done = matched.has(item.id);
+            const isWrong = wrongRightId === item.id;
             return (
               <button
                 key={item.id}
@@ -460,6 +547,8 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
                   "w-full rounded-md border px-3 py-2 text-left text-sm transition-all",
                   done
                     ? "border-success bg-success/10 text-muted-foreground line-through"
+                    : isWrong
+                    ? "border-destructive bg-destructive/10 text-foreground animate-pulse"
                     : "border-border bg-background hover:border-primary/60",
                 ].join(" ")}
               >
@@ -469,10 +558,23 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
           })}
         </div>
       </div>
+
       {allDone && (
-        <p className="mt-4 text-center font-serif text-lg text-success">
-          🎉 Perfect — you matched them all.
-        </p>
+        <div className="mt-4 rounded-xl border border-success/40 bg-success/5 p-4 text-center">
+          <p className="font-serif text-lg text-success">
+            {perfect ? "🏆 Flawless run — you matched them all on the first try." : "🎉 All matched!"}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {totalAttempts} total attempt{totalAttempts === 1 ? "" : "s"} · {wrongAttempts} miss
+            {wrongAttempts === 1 ? "" : "es"} · {hintsUsedCount} hint{hintsUsedCount === 1 ? "" : "s"} used
+          </p>
+          <button
+            onClick={reset}
+            className="mt-3 rounded-md border border-border px-3 py-1.5 text-xs text-primary hover:border-primary/60"
+          >
+            Play again
+          </button>
+        </div>
       )}
     </div>
   );
