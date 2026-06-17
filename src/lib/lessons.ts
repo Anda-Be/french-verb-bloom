@@ -5,13 +5,13 @@ import friendsImg from "@/assets/lesson-friends.jpg";
 import onlineImg from "@/assets/lesson-online.jpg";
 import socialImg from "@/assets/lesson-social.jpg";
 
-export type DialogLine = { speaker: string; en: string; ro: string };
+export type DialogLine = { speaker: string; en: string };
 
 export type VocabItem = {
   term: string;
   type: "idiom" | "phrasal" | "collocation" | "expression" | "word";
-  meaning: string; // în română
-  example: string; // în engleză
+  meaning: string; // Romanian gloss (kept as the only RO content — these are new items to learn)
+  example: string; // English
 };
 
 export type Exercise =
@@ -30,9 +30,9 @@ export type Exercise =
     }
   | {
       kind: "transform";
-      prompt: string; // instrucțiune RO
-      sentence: string; // propoziție EN de transformat
-      answers: string[]; // transformări acceptate
+      prompt: string;
+      sentence: string;
+      answers: string[];
       hint?: string;
     };
 
@@ -41,11 +41,11 @@ export type MatchPair = { en: string; ro: string };
 export type Lesson = {
   slug: string;
   title: string;
-  titleRo: string;
+  tagline: string;
   emoji: string;
   image: string;
   level: "B2+" | "C1" | "C1+";
-  cefr: string; // ce CEFR competențe atinge lecția
+  cefr: string;
   summary: string;
   dialog: DialogLine[];
   explanations: { title: string; body: string }[];
@@ -62,48 +62,48 @@ export const LESSONS: Lesson[] = [
   {
     slug: "restaurant",
     title: "Dining Out",
-    titleRo: "La restaurant",
+    tagline: "Ordering, complaining and praising — politely",
     emoji: "🍝",
     image: restaurantImg,
     level: "C1",
-    cefr: "Registru semi-formal · politețe indirectă · vocabular culinar",
+    cefr: "Semi-formal register · indirect politeness · culinary vocabulary",
     summary:
-      "Politețea indirectă a englezei la masă: cum comanzi, cum trimiți ceva înapoi fără să jignești, cum vorbești despre mâncare ca un connoisseur.",
+      "How English does politeness at the table: ordering with grace, sending something back without causing offence, and talking about food like a connoisseur.",
     dialog: [
-      { speaker: "Host", en: "Good evening. Do you have a reservation with us tonight?", ro: "Bună seara. Aveți o rezervare la noi în această seară?" },
-      { speaker: "You", en: "Yes, under Popescu — a table for two, around 8.", ro: "Da, pe numele Popescu — o masă pentru doi, în jur de ora 8." },
-      { speaker: "Host", en: "Perfect. Would you prefer to be seated by the window, or somewhere a bit quieter?", ro: "Perfect. Ați prefera să fiți așezați lângă fereastră, sau undeva mai liniștit?" },
-      { speaker: "You", en: "Somewhere quieter would be lovely, thanks.", ro: "Undeva mai liniștit ar fi minunat, mulțumesc." },
-      { speaker: "Waiter", en: "Can I get you anything to drink while you're looking at the menu?", ro: "Vă pot aduce ceva de băut cât timp vă uitați pe meniu?" },
-      { speaker: "You", en: "I'd love a glass of whatever red you'd recommend with the lamb.", ro: "Aș dori un pahar din vinul roșu pe care l-ați recomanda cu mielul." },
-      { speaker: "Waiter", en: "Excellent choice. Are you ready to order, or would you like a few more minutes?", ro: "Excelentă alegere. Sunteți gata de comandă, sau mai doriți câteva minute?" },
-      { speaker: "You", en: "I think we're set. I'll go with the pappardelle to start, and the lamb shank as a main.", ro: "Cred că suntem gata. Iau pappardelle ca aperitiv și ciolanul de miel ca fel principal." },
-      { speaker: "Waiter", en: "Any allergies or dietary requirements I should flag with the kitchen?", ro: "Aveți alergii sau cerințe dietetice de semnalat bucătăriei?" },
-      { speaker: "You", en: "Nothing major — I'd just rather it wasn't too heavily seasoned.", ro: "Nimic major — aș prefera să nu fie prea condimentat." },
-      { speaker: "You (later)", en: "Sorry to bother you — I think there's been a slight mix-up. I ordered the lamb medium, but this is closer to well done.", ro: "Scuze că vă deranjez — cred că a fost o mică încurcătură. Am cerut mielul mediu, dar acesta e mai aproape de bine făcut." },
-      { speaker: "Waiter", en: "I'm so sorry about that. Let me take it back and have the chef sort it out straight away.", ro: "Îmi pare foarte rău. Permiteți-mi să-l duc înapoi și bucătarul-șef va rezolva imediat." },
-      { speaker: "You", en: "Could we get the bill whenever you have a moment? And is service included?", ro: "Putem primi nota când aveți un moment? Și taxa de serviciu e inclusă?" },
+      { speaker: "Host", en: "Good evening. Do you have a reservation with us tonight?" },
+      { speaker: "You", en: "Yes, under Popescu — a table for two, around 8." },
+      { speaker: "Host", en: "Perfect. Would you prefer to be seated by the window, or somewhere a bit quieter?" },
+      { speaker: "You", en: "Somewhere quieter would be lovely, thanks." },
+      { speaker: "Waiter", en: "Can I get you anything to drink while you're looking at the menu?" },
+      { speaker: "You", en: "I'd love a glass of whatever red you'd recommend with the lamb." },
+      { speaker: "Waiter", en: "Excellent choice. Are you ready to order, or would you like a few more minutes?" },
+      { speaker: "You", en: "I think we're set. I'll go with the pappardelle to start, and the lamb shank as a main." },
+      { speaker: "Waiter", en: "Any allergies or dietary requirements I should flag with the kitchen?" },
+      { speaker: "You", en: "Nothing major — I'd just rather it wasn't too heavily seasoned." },
+      { speaker: "You (later)", en: "Sorry to bother you — I think there's been a slight mix-up. I ordered the lamb medium, but this is closer to well done." },
+      { speaker: "Waiter", en: "I'm so sorry about that. Let me take it back and have the chef sort it out straight away." },
+      { speaker: "You", en: "Could we get the bill whenever you have a moment? And is service included?" },
     ],
     explanations: [
       {
-        title: "Politețea indirectă: distanțarea ca instrument",
-        body: "La C1, politețea engleză înseamnă a crea distanță gramaticală între tine și cerere. Compară: „I want…” → „I'd like…” → „I was wondering if I could…”. Cu cât mai mulți pași — pretenitiv, modal trecut, întrebare indirectă — cu atât mai politicos. „Could we possibly…” e standardul; „I don't suppose you could…” e foarte politicos.",
+        title: "Indirect politeness: distancing as a tool",
+        body: "At C1, English politeness is mostly grammatical distance between you and the request. Compare: ‘I want…’ → ‘I'd like…’ → ‘I was wondering if I could…’. The more layers — pretérite, past modal, embedded question — the more polite. ‘Could we possibly…’ is the standard register; ‘I don't suppose you could…’ is extra polite.",
       },
       {
-        title: "Hedging când reclami",
-        body: "Englezii nu spun „This is wrong”. Folosesc hedge-uri pentru a atenua: „There's been a slight mix-up”, „I think there might be a small issue with…”, „I'm afraid this isn't quite what I ordered”. „I'm afraid” NU înseamnă teamă — e un marker de regret politicos.",
+        title: "Hedging a complaint",
+        body: "English speakers don't say ‘This is wrong.’ They hedge: ‘There's been a slight mix-up’, ‘I think there might be a small issue with…’, ‘I'm afraid this isn't quite what I ordered.’ ‘I'm afraid’ has nothing to do with fear — it's a marker of polite regret.",
       },
       {
-        title: "Colocații cu „order” și „bill”",
-        body: "Verbe care însoțesc natural „order”: place an order, take an order, get an order wrong, rush an order. Pentru notă: settle the bill (a achita), split the bill (a împărți), foot the bill (a plăti totul, idiomatic). „Service charge”/„gratuity” = bacșișul inclus.",
+        title: "Collocations with ‘order’ and ‘bill’",
+        body: "Verbs that pair naturally with order: place an order, take an order, get an order wrong, rush an order. For the bill: settle the bill (pay), split the bill (share), foot the bill (pay for everything — idiomatic). ‘Service charge’ / ‘gratuity’ = the tip that's already included.",
       },
       {
-        title: "Vocabular culinar de connoisseur",
-        body: "Texturi: crispy, crunchy, tender, succulent, dense, flaky. Gusturi: rich, delicate, savoury, tangy, smoky, earthy. Critici: bland (fad), overcooked, underseasoned, stodgy (greoi). Aprecieri: cooked to perfection, beautifully presented, packed with flavour.",
+        title: "Connoisseur vocabulary for food",
+        body: "Texture: crispy, crunchy, tender, succulent, dense, flaky. Flavour: rich, delicate, savoury, tangy, smoky, earthy. Criticism: bland, overcooked, underseasoned, stodgy (heavy and dull). Praise: cooked to perfection, beautifully presented, packed with flavour.",
       },
       {
-        title: "„Would rather” + past pentru preferințe politicoase",
-        body: "„I'd rather it wasn't too spicy” — atenție, după „would rather” + subiect diferit, verbul e la trecut (subjunctive). Nu „I'd rather it isn't”. Echivalent natural pentru „aș prefera să nu…”.",
+        title: "‘Would rather’ + past for polite preferences",
+        body: "‘I'd rather it wasn't too spicy.’ Note: after ‘would rather’ + a different subject, the verb goes into the past (a subjunctive use). Not ‘I'd rather it isn't’. This is the natural way to express ‘I'd prefer it not to be…’.",
       },
     ],
     vocabulary: [
@@ -121,47 +121,47 @@ export const LESSONS: Lesson[] = [
         kind: "fill",
         prompt: "I was ____ if we could possibly move to a quieter table.",
         answers: ["wondering"],
-        hint: "Formulă maxim politicoasă: „mă întrebam dacă…”.",
+        hint: "Maximum-politeness opener: ‘I was ___ if…’",
       },
       {
         kind: "choice",
-        prompt: "Cea mai naturală formă C1 pentru o reclamație politicoasă:",
+        prompt: "The most natural C1 way to complain politely:",
         options: [
           "This food is bad. Change it.",
           "I'm afraid there's been a slight mix-up with my order.",
           "Excuse me, I don't like this.",
         ],
         correct: 1,
-        explain: "„I'm afraid” + „a slight mix-up” = hedging clasic britanic.",
+        explain: "‘I'm afraid’ + ‘a slight mix-up’ is classic British hedging.",
       },
       {
         kind: "transform",
-        prompt: "Rescrie politicos, folosind „would rather”:",
+        prompt: "Rewrite politely using ‘would rather’:",
         sentence: "Please don't season it heavily.",
         answers: [
           "i'd rather it wasn't seasoned heavily",
           "i would rather it wasn't seasoned heavily",
           "i'd rather it weren't seasoned heavily",
         ],
-        hint: "„I'd rather it ___ + past”.",
+        hint: "‘I'd rather it ___ + past’.",
       },
       {
         kind: "fill",
         prompt: "We were going to ____ the bill, but he insisted on paying.",
         answers: ["split"],
-        hint: "colocație — a împărți nota",
+        hint: "Collocation — share the bill",
       },
       {
         kind: "choice",
-        prompt: "„Stodgy” descrie cel mai bine:",
-        options: ["o supă ușoară", "o budincă grea, sățioasă", "un fel proaspăt și acrișor"],
+        prompt: "‘Stodgy’ best describes:",
+        options: ["a light, clear soup", "a heavy, doughy pudding", "a fresh, tangy starter"],
         correct: 1,
       },
     ],
     freePrompt: {
       prompt:
-        "Scrie un review scurt (60-80 de cuvinte) pentru un restaurant pe care l-ai vizitat. Folosește cel puțin: o colocație din lecție, un adjectiv de textură și un hedge politicos pentru un minus.",
-      hint: "Începe cu „We popped in for…” sau „Tucked away on a side street, …”.",
+        "Write a short review (60–80 words) of a restaurant you've been to. Use at least: one collocation from the lesson, one texture adjective, and one polite hedge for a minor criticism.",
+      hint: "Open with ‘We popped in for…’ or ‘Tucked away on a side street, …’.",
     },
     match: [
       { en: "I don't suppose you could…", ro: "Nu cumva ați putea…" },
@@ -180,45 +180,45 @@ export const LESSONS: Lesson[] = [
   {
     slug: "airport",
     title: "Navigating the Airport",
-    titleRo: "La aeroport",
+    tagline: "Transactional English under pressure",
     emoji: "✈️",
     image: airportImg,
     level: "C1",
-    cefr: "Engleză tranzacțională sub presiune · phrasal verbs de călătorie",
+    cefr: "Transactional English under pressure · travel phrasal verbs",
     summary:
-      "Anunțuri criptice, conexiuni ratate, bagaje pierdute. Engleza de aeroport cere phrasal verbs precise și o atitudine calmă, fermă.",
+      "Cryptic announcements, missed connections, lost luggage. Airport English calls for precise phrasal verbs and a calm, firm tone.",
     dialog: [
-      { speaker: "Agent", en: "Good morning. Could I see your passport and booking reference, please?", ro: "Bună dimineața. Pot vedea pașaportul și codul de rezervare, vă rog?" },
-      { speaker: "You", en: "Here you go. I'm hoping to check in two bags and keep one as carry-on.", ro: "Poftiți. Aș dori să predau două bagaje și să păstrez unul de mână." },
-      { speaker: "Agent", en: "Just so you know, your carry-on looks a touch oversized — could you pop it on the sizer?", ro: "Doar să știți, bagajul de mână pare puțin supradimensionat — îl puneți pe cadrul de măsurat?" },
-      { speaker: "You", en: "Of course. … There — does that fit?", ro: "Sigur. … Așa — încape?" },
-      { speaker: "Agent", en: "Just barely. I'll let it through. Would you like to upgrade to extra legroom for £25?", ro: "La limită. Îl las să treacă. Doriți să faceți upgrade pentru spațiu suplimentar pentru picioare la 25 de lire?" },
-      { speaker: "You", en: "I'll pass, thanks. Any chance of an aisle seat though?", ro: "Renunț, mulțumesc. Există vreo șansă pentru un loc la culoar?" },
-      { speaker: "Agent", en: "Done. Boarding starts at 10:40 from Gate 24. Heads-up — the gate is a fair walk, so don't dawdle.", ro: "Gata. Îmbarcarea începe la 10:40 de la poarta 24. Atenție — poarta e cam departe, așa că nu zăboviți." },
-      { speaker: "PA", en: "This is a final boarding call for passenger Popescu travelling to Lisbon. Please make your way to Gate 24 immediately.", ro: "Acesta este apelul final pentru îmbarcare pentru pasagerul Popescu cu destinația Lisabona. Vă rugăm să vă îndreptați imediat spre poarta 24." },
-      { speaker: "You (later, at baggage claim)", en: "Excuse me — I've been waiting for my suitcase for about 40 minutes and it still hasn't come through. I think it may have been delayed.", ro: "Scuzați-mă — aștept valiza de aproximativ 40 de minute și încă nu a apărut. Cred că s-ar putea să fi fost întârziată." },
-      { speaker: "Staff", en: "I'll need to file a missing-baggage report. Could you describe the bag and confirm your onward address?", ro: "Va trebui să întocmesc o reclamație pentru bagaj pierdut. Puteți descrie geanta și confirma adresa de destinație?" },
+      { speaker: "Agent", en: "Good morning. Could I see your passport and booking reference, please?" },
+      { speaker: "You", en: "Here you go. I'm hoping to check in two bags and keep one as carry-on." },
+      { speaker: "Agent", en: "Just so you know, your carry-on looks a touch oversized — could you pop it on the sizer?" },
+      { speaker: "You", en: "Of course. … There — does that fit?" },
+      { speaker: "Agent", en: "Just barely. I'll let it through. Would you like to upgrade to extra legroom for £25?" },
+      { speaker: "You", en: "I'll pass, thanks. Any chance of an aisle seat though?" },
+      { speaker: "Agent", en: "Done. Boarding starts at 10:40 from Gate 24. Heads-up — the gate is a fair walk, so don't dawdle." },
+      { speaker: "PA", en: "This is a final boarding call for passenger Popescu travelling to Lisbon. Please make your way to Gate 24 immediately." },
+      { speaker: "You (later, at baggage claim)", en: "Excuse me — I've been waiting for my suitcase for about 40 minutes and it still hasn't come through. I think it may have been delayed." },
+      { speaker: "Staff", en: "I'll need to file a missing-baggage report. Could you describe the bag and confirm your onward address?" },
     ],
     explanations: [
       {
-        title: "Phrasal verbs esențiale de călătorie",
-        body: "check in (a se înregistra), check out (a face check-out de la hotel), board (a urca în avion), take off (a decola), touch down (a ateriza), look out for (a fi atent la), make it to (a reuși să ajungi la), put through (a fi conectat / direcționat). „I just made it to the gate” = am ajuns la limită.",
+        title: "Essential travel phrasal verbs",
+        body: "check in (register at the desk), check out (leave a hotel), board (get on the plane), take off (depart), touch down (land), look out for (watch for), make it to (manage to reach), put through (be connected). ‘I just made it to the gate’ = I got there at the very last moment.",
       },
       {
-        title: "Anunțuri de aeroport: decodare rapidă",
-        body: "„Final boarding call” = ultima chemare (rulează la gate-ul deja deschis). „Now boarding by row” = îmbarcare pe rânduri. „Flight delayed/cancelled/rescheduled”. „Gate change”. „Please proceed to…” = mergeți la… „Last call for…” = ultima chemare pentru…",
+        title: "Decoding airport announcements fast",
+        body: "‘Final boarding call’ = the very last call (the gate is already closing). ‘Now boarding by row’ = boarding in row groups. ‘Flight delayed / cancelled / rescheduled.’ ‘Gate change.’ ‘Please proceed to…’ = move towards… ‘Last call for…’ = final chance for…",
       },
       {
-        title: "Hedging C1 pentru probleme",
-        body: "Nu spune „My bag is lost!”. Spune „I think my bag may have been delayed” / „It appears my bag hasn't come through yet”. „It appears”, „it seems”, „may have + past participle” suavizează și sună profesionist.",
+        title: "C1 hedging for problems",
+        body: "Don't say ‘My bag is lost!’ Say ‘I think my bag may have been delayed’ or ‘It appears my bag hasn't come through yet.’ ‘It appears’, ‘it seems’ and ‘may have + past participle’ both soften the claim and sound more professional.",
       },
       {
-        title: "Idiomuri pentru întârzieri și grabă",
-        body: "to cut it fine (a o lăsa pe ultima sută), to miss the boat (a pierde ocazia/avionul), a stone's throw away (foarte aproape), a fair walk (destul de departe), to dawdle (a zăbovi), to be held up (a fi întârziat).",
+        title: "Idioms for delays and rushing",
+        body: "to cut it fine (to leave it dangerously late), to miss the boat (miss your chance / your plane), a stone's throw away (very close), a fair walk (a long way), to dawdle (to dally), to be held up (to be delayed).",
       },
       {
-        title: "Pasiv impersonal: stilul anunțurilor",
-        body: "Anunțurile folosesc pasivul: „Passengers are kindly requested to…”, „Smoking is not permitted”, „Liquids must be placed in a clear bag”. Reține structura — o vei recunoaște imediat, oriunde în lume.",
+        title: "Impersonal passive: the style of announcements",
+        body: "Announcements lean on the passive: ‘Passengers are kindly requested to…’, ‘Smoking is not permitted’, ‘Liquids must be placed in a clear bag.’ Memorise the rhythm — you'll recognise it instantly in any airport in the world.",
       },
     ],
     vocabulary: [
@@ -236,11 +236,11 @@ export const LESSONS: Lesson[] = [
         kind: "fill",
         prompt: "We had to run — we were really ____ it fine.",
         answers: ["cutting"],
-        hint: "idiom: a o lăsa pe ultima sută",
+        hint: "Idiom: leaving it dangerously late",
       },
       {
         kind: "choice",
-        prompt: "Cea mai politicoasă raportare a unui bagaj pierdut:",
+        prompt: "The most polite way to report a missing bag:",
         options: [
           "You lost my bag!",
           "Where is my bag?? It's not here!",
@@ -250,7 +250,7 @@ export const LESSONS: Lesson[] = [
       },
       {
         kind: "transform",
-        prompt: "Transformă în pasiv impersonal (stil anunț):",
+        prompt: "Rewrite in the impersonal passive (announcement style):",
         sentence: "You cannot bring liquids through security.",
         answers: [
           "liquids are not permitted through security",
@@ -265,20 +265,20 @@ export const LESSONS: Lesson[] = [
       },
       {
         kind: "choice",
-        prompt: "Diferența UK vs US:",
+        prompt: "UK vs US difference:",
         options: [
-          "„Stopover” e britanic, „layover” e american.",
-          "Sunt sinonime perfecte.",
-          "„Layover” înseamnă întotdeauna peste 24h.",
+          "‘Stopover’ is British, ‘layover’ is American.",
+          "They're perfect synonyms.",
+          "‘Layover’ always means more than 24 hours.",
         ],
         correct: 0,
-        explain: "În uz general, britanicii zic „stopover”, americanii „layover”.",
+        explain: "In general usage, Brits say ‘stopover’, Americans say ‘layover’.",
       },
     ],
     freePrompt: {
       prompt:
-        "Scrie un mesaj de 4-5 propoziții către un coleg explicând că zborul tău a fost întârziat și vei ajunge mai târziu la întâlnire. Folosește pasivul impersonal și un hedge.",
-      hint: "„My flight's been…”, „It looks like I won't be able to make it until…”.",
+        "Write a 4–5 sentence message to a colleague explaining that your flight has been delayed and you'll be late to a meeting. Use the impersonal passive and at least one hedge.",
+      hint: "‘My flight's been…’, ‘It looks like I won't be able to make it until…’.",
     },
     match: [
       { en: "Final boarding call", ro: "Ultima chemare pentru îmbarcare" },
@@ -297,45 +297,45 @@ export const LESSONS: Lesson[] = [
   {
     slug: "interview",
     title: "The Job Interview",
-    titleRo: "La interviu",
+    tagline: "Sound senior, structured and self-aware",
     emoji: "💼",
     image: interviewImg,
     level: "C1+",
-    cefr: "Limbaj profesional · STAR · hedging strategic",
+    cefr: "Professional register · STAR answers · strategic hedging",
     summary:
-      "Engleza de interviu la nivel C1: răspunsuri structurate STAR, vocabular de leadership, cum să discuți eșecul fără să-l minimizezi.",
+      "C1 interview English: STAR-structured answers, leadership vocabulary, and how to talk about failure without minimising it.",
     dialog: [
-      { speaker: "Interviewer", en: "Thanks for coming in. To kick things off, could you walk me through your background?", ro: "Mulțumim că ați venit. Pentru început, ne puteți prezenta parcursul dumneavoastră?" },
-      { speaker: "You", en: "Of course. I've spent the past five years in product marketing, most recently leading go-to-market for a B2B SaaS platform. Before that, I cut my teeth in a small agency, which gave me a really hands-on grounding.", ro: "Desigur. Am petrecut ultimii cinci ani în marketing de produs, cel mai recent conducând lansările pentru o platformă SaaS B2B. Înainte, m-am format într-o agenție mică, ceea ce mi-a oferit o pregătire foarte practică." },
-      { speaker: "Interviewer", en: "What drew you to this role specifically?", ro: "Ce v-a atras în mod specific la acest rol?" },
-      { speaker: "You", en: "Honestly, two things. First, the scope — owning a category end-to-end is exactly the stretch I'm looking for. Second, your team's reputation for shipping fast without cutting corners.", ro: "Sincer, două lucruri. În primul rând, scopul — să dețin o categorie de la cap la coadă e exact provocarea pe care o caut. În al doilea rând, reputația echipei de a livra rapid fără a face rabat la calitate." },
-      { speaker: "Interviewer", en: "Tell me about a time you had to push back on a senior stakeholder.", ro: "Povestiți-mi despre o situație în care a trebuit să vă opuneți unei părți interesate de rang superior." },
-      { speaker: "You", en: "Sure. Our CMO was set on a campaign I felt wouldn't land with our ICP. I pulled together quick user interviews and walked her through the findings rather than the opinion. She ultimately green-lit a reframed version — and it outperformed projections by 30%.", ro: "Sigur. Directorul nostru de marketing era hotărât pe o campanie despre care credeam că nu va rezona cu publicul țintă. Am organizat rapid interviuri cu utilizatori și i-am prezentat datele, nu opinia. Până la urmă a aprobat o versiune reformulată — și a depășit prognozele cu 30%." },
-      { speaker: "Interviewer", en: "And a time something didn't go to plan?", ro: "Și o situație în care lucrurile nu au mers conform planului?" },
-      { speaker: "You", en: "We rushed a launch to hit a board deadline and the messaging fell flat. I owned it in the post-mortem, restructured how we validate copy, and that framework is still in use.", ro: "Am grăbit o lansare pentru un termen de la consiliu și mesajul nu a prins. Mi-am asumat în analiza post-eveniment, am restructurat modul în care validăm textul, iar acel cadru este folosit și astăzi." },
-      { speaker: "Interviewer", en: "Where do you see yourself in three years?", ro: "Unde vă vedeți peste trei ani?" },
-      { speaker: "You", en: "Ideally, leading a team and shaping strategy at the function level — but I'm wary of over-engineering the path. The next 12 months matter more than the next 36.", ro: "Ideal, conducând o echipă și modelând strategia la nivel de funcție — dar mă feresc să planific excesiv traseul. Următoarele 12 luni contează mai mult decât următoarele 36." },
+      { speaker: "Interviewer", en: "Thanks for coming in. To kick things off, could you walk me through your background?" },
+      { speaker: "You", en: "Of course. I've spent the past five years in product marketing, most recently leading go-to-market for a B2B SaaS platform. Before that, I cut my teeth in a small agency, which gave me a really hands-on grounding." },
+      { speaker: "Interviewer", en: "What drew you to this role specifically?" },
+      { speaker: "You", en: "Honestly, two things. First, the scope — owning a category end-to-end is exactly the stretch I'm looking for. Second, your team's reputation for shipping fast without cutting corners." },
+      { speaker: "Interviewer", en: "Tell me about a time you had to push back on a senior stakeholder." },
+      { speaker: "You", en: "Sure. Our CMO was set on a campaign I felt wouldn't land with our ICP. I pulled together quick user interviews and walked her through the findings rather than the opinion. She ultimately green-lit a reframed version — and it outperformed projections by 30%." },
+      { speaker: "Interviewer", en: "And a time something didn't go to plan?" },
+      { speaker: "You", en: "We rushed a launch to hit a board deadline and the messaging fell flat. I owned it in the post-mortem, restructured how we validate copy, and that framework is still in use." },
+      { speaker: "Interviewer", en: "Where do you see yourself in three years?" },
+      { speaker: "You", en: "Ideally, leading a team and shaping strategy at the function level — but I'm wary of over-engineering the path. The next 12 months matter more than the next 36." },
     ],
     explanations: [
       {
-        title: "Cadrul STAR pentru întrebări comportamentale",
-        body: "S = Situation (contextul, 1 frază), T = Task (rolul tău), A = Action (ce ai făcut tu — verbe la persoana I), R = Result (cuantificat, dacă se poate). „Tell me about a time…” așteaptă STAR. Răspunsuri 60-90 de secunde. Evită „we did” — interviewer-ul vrea să audă „I did”.",
+        title: "The STAR framework for behavioural questions",
+        body: "S = Situation (context, one sentence), T = Task (your role), A = Action (what YOU did — first-person verbs), R = Result (quantified where possible). ‘Tell me about a time…’ always expects STAR. Aim for 60–90 second answers. Avoid ‘we did’ — interviewers want to hear ‘I did’.",
       },
       {
-        title: "Verbe puternice pentru CV și interviu",
-        body: "Spread, scaled, spearheaded, drove, owned, shipped, delivered, restructured, streamlined, secured, championed, led, mentored, untangled. Evită „helped”, „was involved in”, „assisted with” — toate spun „nu eram în control”.",
+        title: "Strong verbs for CVs and interviews",
+        body: "spearheaded, scaled, drove, owned, shipped, delivered, restructured, streamlined, secured, championed, led, mentored, untangled. Avoid ‘helped’, ‘was involved in’, ‘assisted with’ — they all say ‘I wasn't really in charge’.",
       },
       {
-        title: "Hedging strategic vs slăbiciune",
-        body: "Bun: „I'd argue that…”, „My take is…”, „It's worth noting that…”, „On balance, I'd say…”. Slab: „I think maybe…”, „Sort of…”, „I'm not sure but…”. Hedge-uiește OPINIA, nu COMPETENȚA.",
+        title: "Strategic hedging vs weakness",
+        body: "Good: ‘I'd argue that…’, ‘My take is…’, ‘It's worth noting that…’, ‘On balance, I'd say…’. Weak: ‘I think maybe…’, ‘Sort of…’, ‘I'm not sure but…’. Hedge the OPINION, never the COMPETENCE.",
       },
       {
-        title: "Vorbește despre eșec ca un profesionist",
-        body: "Formula: ce s-a întâmplat → ce ai învățat → ce ai schimbat sistemic. Niciodată „it was the team's fault”, niciodată „nothing comes to mind”. „I owned it”, „I took the hit”, „lessons learned”. Eșecul fără learning = red flag.",
+        title: "Talking about failure like a pro",
+        body: "Formula: what happened → what you learnt → what you changed systemically. Never ‘it was the team's fault’, never ‘nothing comes to mind’. Use ‘I owned it’, ‘I took the hit’, ‘lessons learned’. Failure without learning = red flag.",
       },
       {
-        title: "Idiomuri profesionale utile",
-        body: "to cut your teeth (a te forma), to hit the ground running (a fi productiv de la început), to think outside the box (a fi creativ — clișeu, evită!), to move the needle (a avea impact măsurabil), to drop the ball (a rata), to be on the same page (a fi de acord), to take ownership (a-ți asuma).",
+        title: "Useful professional idioms",
+        body: "to cut your teeth (to learn the trade), to hit the ground running (to be productive from day one), to think outside the box (creative — clichéd, avoid!), to move the needle (to have measurable impact), to drop the ball (to fail / miss), to be on the same page (to agree), to take ownership (to take responsibility).",
       },
     ],
     vocabulary: [
@@ -358,18 +358,18 @@ export const LESSONS: Lesson[] = [
       },
       {
         kind: "choice",
-        prompt: "Răspuns C1 la „What's your biggest weakness?”:",
+        prompt: "A C1-level answer to ‘What's your biggest weakness?’:",
         options: [
           "I'm a perfectionist.",
           "I have no weaknesses.",
           "I used to take on too much myself — I've been actively delegating more, and it's freed up my team to grow.",
         ],
         correct: 2,
-        explain: "Slăbiciune reală + acțiune corectivă + rezultat. Niciodată „perfectionist” (clișeu obosit).",
+        explain: "Real weakness + corrective action + result. Never ‘perfectionist’ (tired cliché).",
       },
       {
         kind: "transform",
-        prompt: "Întărește verbul (înlocuiește „helped with”):",
+        prompt: "Strengthen the verb (replace ‘helped with’):",
         sentence: "I helped with the product launch.",
         answers: [
           "i led the product launch",
@@ -387,20 +387,20 @@ export const LESSONS: Lesson[] = [
       },
       {
         kind: "choice",
-        prompt: "Care e cel mai puternic închizător de răspuns STAR?",
+        prompt: "Which is the strongest STAR closer?",
         options: [
           "…and that's basically what happened.",
           "…which boosted conversion by 22% quarter-on-quarter.",
           "…and the team was happy.",
         ],
         correct: 1,
-        explain: "Cuantifică rezultatul. „Boosted X by Y%” e standardul.",
+        explain: "Quantify the result. ‘Boosted X by Y%’ is the standard.",
       },
     ],
     freePrompt: {
       prompt:
-        "Răspunde STAR la „Tell me about a time you turned around a difficult situation” (80-120 de cuvinte). Folosește minim 2 verbe puternice și un rezultat cuantificat (real sau plauzibil).",
-      hint: "Situation (1) → Task (1) → Action (3-4 fraze, „I…”) → Result (cifre).",
+        "Give a STAR answer to ‘Tell me about a time you turned around a difficult situation’ (80–120 words). Use at least two strong verbs and one quantified result (real or plausible).",
+      hint: "Situation (1) → Task (1) → Action (3–4 sentences, ‘I…’) → Result (numbers).",
     },
     match: [
       { en: "to cut your teeth", ro: "a te forma profesional" },
@@ -420,46 +420,46 @@ export const LESSONS: Lesson[] = [
   {
     slug: "friends",
     title: "Hanging Out with Friends",
-    titleRo: "Conversație cu prieteni",
+    tagline: "Native casual: contractions, slang, dry irony",
     emoji: "☕",
     image: friendsImg,
     level: "C1",
-    cefr: "Slang · ironie · pragmatică conversațională",
+    cefr: "Slang · irony · conversational pragmatics",
     summary:
-      "Conversația informală nativă: contracții, slang, sarcasm controlat, expresii idiomatice. Diferența între engleza de manual și engleza din pub.",
+      "Native casual conversation: contractions, slang, controlled sarcasm, idiomatic expressions. The gap between textbook English and pub English.",
     dialog: [
-      { speaker: "Alex", en: "Long time no see! How've you been?", ro: "Nu te-am mai văzut de mult! Ce-ai mai făcut?" },
-      { speaker: "You", en: "Can't complain, honestly. Work's been mental, but I'm getting there. You?", ro: "Nu mă pot plânge, sincer. La muncă a fost nebunie, dar mă descurc. Tu?" },
-      { speaker: "Alex", en: "Same old, same old. Actually, I've been meaning to catch up with you for ages.", ro: "Tot vechea poveste. De fapt, voiam să ne vedem de o veșnicie." },
-      { speaker: "You", en: "Tell me about it. We keep saying we'll grab a drink and it never happens.", ro: "Nu-mi mai zice. Tot zicem că bem ceva și nu se întâmplă niciodată." },
-      { speaker: "Alex", en: "What about Friday? There's this new place that's supposed to be brilliant.", ro: "Vineri ce zici? E un local nou care pare să fie excelent." },
-      { speaker: "You", en: "Friday works. Shall we say 7-ish? My treat — I owe you one from last time.", ro: "Vineri merge. Ne vedem pe la 7? Fac eu cinste — îți datorez de data trecută." },
-      { speaker: "Alex", en: "Don't be daft, we'll split it. By the way, did you hear about Sarah's new gig?", ro: "Nu fi prostuț, împărțim. Apropo, ai auzit de noul job al lui Sarah?" },
-      { speaker: "You", en: "No way — spill the beans.", ro: "Nu se poate — dă-i drumul, spune!" },
-      { speaker: "Alex", en: "She packed in the consultancy and is going freelance. Bold move, but it's so her.", ro: "A renunțat la consultanță și se face freelancer. Mișcare îndrăzneață, dar e foarte ea." },
-      { speaker: "You", en: "Good for her. Anyway, I should probably get going — early start tomorrow.", ro: "Bravo ei. Oricum, ar trebui să plec — am o dimineață devreme mâine." },
-      { speaker: "Alex", en: "Fair enough. Friday it is. Take care!", ro: "OK, e logic. Atunci vineri. Ai grijă!" },
+      { speaker: "Alex", en: "Long time no see! How've you been?" },
+      { speaker: "You", en: "Can't complain, honestly. Work's been mental, but I'm getting there. You?" },
+      { speaker: "Alex", en: "Same old, same old. Actually, I've been meaning to catch up with you for ages." },
+      { speaker: "You", en: "Tell me about it. We keep saying we'll grab a drink and it never happens." },
+      { speaker: "Alex", en: "What about Friday? There's this new place that's supposed to be brilliant." },
+      { speaker: "You", en: "Friday works. Shall we say 7-ish? My treat — I owe you one from last time." },
+      { speaker: "Alex", en: "Don't be daft, we'll split it. By the way, did you hear about Sarah's new gig?" },
+      { speaker: "You", en: "No way — spill the beans." },
+      { speaker: "Alex", en: "She packed in the consultancy and is going freelance. Bold move, but it's so her." },
+      { speaker: "You", en: "Good for her. Anyway, I should probably get going — early start tomorrow." },
+      { speaker: "Alex", en: "Fair enough. Friday it is. Take care!" },
     ],
     explanations: [
       {
-        title: "Connected speech: cum sună de fapt",
-        body: "„How have you been” = „How've you been” (/haʊv juː biːn/). „I have been meaning to” = „I've been meaning to”. „What about” → „Whaddabout”. „Going to” → „gonna”, „want to” → „wanna”, „got to” → „gotta”. Acestea se SCRIU rareori, dar se ROSTESC mereu. C1 le aude și le folosește.",
+        title: "Connected speech: how it actually sounds",
+        body: "‘How have you been’ → ‘How've you been’ (/haʊv juː biːn/). ‘I have been meaning to’ → ‘I've been meaning to’. ‘What about’ → ‘Whaddabout’. ‘Going to’ → ‘gonna’, ‘want to’ → ‘wanna’, ‘got to’ → ‘gotta’. Rarely written, almost always spoken. A C1 listener hears them and uses them.",
       },
       {
-        title: "Discourse markers casual",
-        body: "„Anyway” = schimbă subiectul. „Actually” = corectează sau adaugă. „By the way” = informație colaterală. „I mean…” = clarifică. „Like, …” (filler) = ca, gen. „You know what I mean?” = caută acord. „To be fair…” = recunoaște nuanțat.",
+        title: "Casual discourse markers",
+        body: "‘Anyway’ = changes topic. ‘Actually’ = corrects or adds. ‘By the way’ = side info. ‘I mean…’ = clarifies. ‘Like, …’ (filler) = like, sort of. ‘You know what I mean?’ = seeks agreement. ‘To be fair…’ = concedes nuance.",
       },
       {
-        title: "Britanic vs Americanism — diferențe vii",
-        body: "UK: brilliant / mental / cheers / mate / proper good / take the mickey / knackered. US: awesome / crazy / thanks / dude / really good / make fun of / exhausted. „I'm pissed” = UK supărat, US beat. „Pants” = UK lenjerie, US pantaloni. Reține pentru ambele.",
+        title: "British vs American — living differences",
+        body: "UK: brilliant / mental / cheers / mate / proper good / take the mickey / knackered. US: awesome / crazy / thanks / dude / really good / make fun of / exhausted. ‘I'm pissed’ = UK angry, US drunk. ‘Pants’ = UK underwear, US trousers. Keep both registers in mind.",
       },
       {
-        title: "Ironie și understatement britanic",
-        body: "„Not bad” poate însemna „excellent”. „A bit of a nightmare” = catastrofă. „Quite good” = mediocru spre bun. „I wouldn't say no” = da, te rog. Englezii folosesc understatement-ul ca semnătură culturală. Nu lua literal.",
+        title: "British irony and understatement",
+        body: "‘Not bad’ can mean ‘excellent’. ‘A bit of a nightmare’ = a disaster. ‘Quite good’ = mediocre-to-good. ‘I wouldn't say no’ = yes, please. The British use understatement as a cultural signature. Don't take it literally.",
       },
       {
-        title: "Phrasal verbs sociale",
-        body: "to catch up (a se pune la curent), to hang out (a petrece timp), to drop by/in (a trece pe la), to bail on (a anula brusc), to flake out (a fi nesigur, a anula), to pack in (a renunța la un job), to fall out with (a se certa), to make up (a se împăca), to put up with (a tolera).",
+        title: "Social phrasal verbs",
+        body: "to catch up (to compare news), to hang out (to spend time), to drop by/in (to stop by), to bail on (to cancel abruptly), to flake out (to be unreliable, to cancel), to pack in (to quit a job), to fall out with (to argue with), to make up (to reconcile), to put up with (to tolerate).",
       },
     ],
     vocabulary: [
@@ -482,20 +482,20 @@ export const LESSONS: Lesson[] = [
       },
       {
         kind: "choice",
-        prompt: "În UK, „I'm absolutely knackered” înseamnă:",
-        options: ["Sunt furios.", "Sunt epuizat.", "Sunt beat."],
+        prompt: "In the UK, ‘I'm absolutely knackered’ means:",
+        options: ["I'm furious.", "I'm exhausted.", "I'm drunk."],
         correct: 1,
       },
       {
         kind: "choice",
-        prompt: "Un britanic spune „Not bad at all, actually”. Cel mai probabil înseamnă:",
-        options: ["Mediocru.", "Excelent (understatement).", "Catastrofal."],
+        prompt: "A British speaker says ‘Not bad at all, actually’. They most likely mean:",
+        options: ["Mediocre.", "Excellent (understatement).", "Awful."],
         correct: 1,
-        explain: "Understatement clasic. „Not bad” poate fi laudă reală.",
+        explain: "Classic understatement. ‘Not bad’ can be real praise.",
       },
       {
         kind: "transform",
-        prompt: "Rescrie informal, folosind contracții și un phrasal verb:",
+        prompt: "Rewrite informally, using contractions and a phrasal verb:",
         sentence: "He has decided to leave his job and travel.",
         answers: [
           "he's decided to pack in his job and travel",
@@ -507,13 +507,13 @@ export const LESSONS: Lesson[] = [
         kind: "fill",
         prompt: "Don't ____ on me again — last time you cancelled an hour before!",
         answers: ["bail", "flake"],
-        hint: "phrasal verb pentru a anula brusc",
+        hint: "Phrasal verb for cancelling abruptly",
       },
     ],
     freePrompt: {
       prompt:
-        "Scrie un schimb de mesaje text (5-6 replici) cu un prieten care vrea să te vadă weekend-ul ăsta. Folosește minim 3 elemente colocviale (contracții, phrasal verb, slang, idiom).",
-      hint: "„Mate, you free…?”, „Can't, I'm…”, „Fair enough”, „How about…?”",
+        "Write a short text exchange (5–6 messages) with a friend who wants to meet up this weekend. Use at least three casual elements (contractions, a phrasal verb, slang, an idiom).",
+      hint: "‘Mate, you free…?’, ‘Can't, I'm…’, ‘Fair enough’, ‘How about…?’",
     },
     match: [
       { en: "Long time no see!", ro: "Nu ne-am văzut de mult!" },
@@ -533,40 +533,40 @@ export const LESSONS: Lesson[] = [
   {
     slug: "online",
     title: "Online: Chat, Email & Slack",
-    titleRo: "Online: chat, email și Slack",
+    tagline: "Three registers, three sets of rules",
     emoji: "💬",
     image: onlineImg,
     level: "C1",
-    cefr: "Registre digitale · email profesional · ton",
+    cefr: "Digital registers · professional email · tone",
     summary:
-      "Trei registre distincte: chat-ul de prieteni, Slack-ul de echipă, email-ul către un client. Aceeași limbă, trei lumi.",
+      "Three distinct registers: chatting with friends, posting on team Slack, emailing a client. Same language, three different worlds.",
     dialog: [
-      { speaker: "WhatsApp", en: "u free 2nite? new burger place opened lol", ro: "ești liber diseară? a deschis un loc nou de burgeri lol" },
-      { speaker: "You", en: "yeah down for it. 8?", ro: "da, sunt gata. la 8?" },
-      { speaker: "Slack #team", en: "Quick one, team — anyone got bandwidth to QA the onboarding flow today? 🙏", ro: "Rapid, echipă — are cineva capacitate să testeze fluxul de onboarding azi? 🙏" },
-      { speaker: "You (Slack)", en: "I can take a look after standup. Drop the Loom and acceptance criteria here?", ro: "Pot să mă uit după standup. Trimite Loom-ul și criteriile de acceptare aici?" },
-      { speaker: "Email", en: "Subject: Q3 proposal — quick clarification\n\nHi Sarah,\n\nI hope this finds you well. Thanks for sending the draft proposal across on Friday — I've had a chance to review it in detail.\n\nOn the whole, it looks really strong. There are just two points I wanted to flag before we sign off:\n\n1. The scope under section 3 reads slightly ambiguously — could we tighten the deliverables?\n2. The timeline assumes a two-week QA window, which I suspect may be optimistic given the holiday period.\n\nHappy to jump on a call this week if that's easier. Otherwise, let me know your thoughts when you get a moment — no rush.\n\nMany thanks,\nAlex", ro: "Subiect: Propunere T3 — clarificare rapidă\n\nBună Sarah,\n\nSper că ești bine. Mulțumesc că ai trimis proiectul de propunere vineri — am avut ocazia să-l studiez în detaliu.\n\nÎn ansamblu, arată foarte bine. Sunt doar două puncte pe care voiam să le semnalez înainte de a aproba:\n\n1. Scopul de la secțiunea 3 e ușor ambiguu — putem strânge livrabilele?\n2. Calendarul presupune o fereastră de două săptămâni pentru QA, care suspectez că e optimistă având în vedere perioada de sărbători.\n\nCu plăcere intru într-un apel săptămâna asta dacă e mai ușor. Altfel, spune-mi părerea când ai un moment — nu e nicio grabă.\n\nMulte mulțumiri,\nAlex" },
+      { speaker: "WhatsApp", en: "u free 2nite? new burger place opened lol" },
+      { speaker: "You", en: "yeah down for it. 8?" },
+      { speaker: "Slack #team", en: "Quick one, team — anyone got bandwidth to QA the onboarding flow today? 🙏" },
+      { speaker: "You (Slack)", en: "I can take a look after standup. Drop the Loom and acceptance criteria here?" },
+      { speaker: "Email", en: "Subject: Q3 proposal — quick clarification\n\nHi Sarah,\n\nI hope this finds you well. Thanks for sending the draft proposal across on Friday — I've had a chance to review it in detail.\n\nOn the whole, it looks really strong. There are just two points I wanted to flag before we sign off:\n\n1. The scope under section 3 reads slightly ambiguously — could we tighten the deliverables?\n2. The timeline assumes a two-week QA window, which I suspect may be optimistic given the holiday period.\n\nHappy to jump on a call this week if that's easier. Otherwise, let me know your thoughts when you get a moment — no rush.\n\nMany thanks,\nAlex" },
     ],
     explanations: [
       {
-        title: "Trei registre, trei seturi de reguli",
-        body: "CHAT (prieteni): minuscule, fără punctuație, abrevieri (u, ur, idk, lol, lmao, brb), emoji liber. SLACK (colegi): propoziții scurte, emoji ocazional 🙏 ✅, ton direct, „quick one” / „bandwidth” / „let me circle back”. EMAIL (extern): paragrafe, salut + închidere completă, fără emoji, hedging politicos.",
+        title: "Three registers, three sets of rules",
+        body: "CHAT (friends): lowercase, no punctuation, abbreviations (u, ur, idk, lol, lmao, brb), emoji freely. SLACK (colleagues): short sentences, occasional emoji 🙏 ✅, direct tone, ‘quick one’ / ‘bandwidth’ / ‘let me circle back’. EMAIL (external): full paragraphs, proper opening + closing, no emoji, polite hedging.",
       },
       {
-        title: "Anatomia unui email C1",
-        body: "1) Subiect specific („Q3 proposal — quick clarification”, nu „Hi”). 2) Salut potrivit: „Dear Ms Roberts” (formal) / „Hi Sarah” (cunoscut). 3) Linie de încălzire („I hope this finds you well” — clișeu acceptat). 4) Context („Thanks for…”). 5) Cererea principală cu hedging. 6) Pas următor clar. 7) Închidere: „Many thanks”, „Best regards”, „Kind regards”.",
+        title: "Anatomy of a C1 email",
+        body: "1) Specific subject line (‘Q3 proposal — quick clarification’, not ‘Hi’). 2) Appropriate greeting: ‘Dear Ms Roberts’ (formal) / ‘Hi Sarah’ (known). 3) Warm-up line (‘I hope this finds you well’ — accepted cliché). 4) Context (‘Thanks for…’). 5) Main request with hedging. 6) Clear next step. 7) Sign-off: ‘Many thanks’, ‘Best regards’, ‘Kind regards’.",
       },
       {
-        title: "Hedge-uri profesionale prin email",
-        body: "„I just wanted to check…”, „Could I possibly ask…”, „I was wondering whether…”, „It might be worth…”, „I suspect…”, „I'd be inclined to…”, „On the off-chance you have a moment…”. Toate atenuează cererea fără să o slăbească.",
+        title: "Professional email hedges",
+        body: "‘I just wanted to check…’, ‘Could I possibly ask…’, ‘I was wondering whether…’, ‘It might be worth…’, ‘I suspect…’, ‘I'd be inclined to…’, ‘On the off-chance you have a moment…’. All soften the ask without weakening it.",
       },
       {
-        title: "Acronime Slack/email de înțeles",
-        body: "ASAP (cât mai repede), EOD (end of day), EOW (end of week), FYI (pentru informare), FYA (pentru acțiune), TL;DR (prea lung, n-am citit — rezumat), OOO (out of office), WFH (work from home), PTO (concediu), KPI/OKR (obiective), 1:1 (întâlnire individuală), heads-up, circle back, loop in, sync up.",
+        title: "Slack / email acronyms to know",
+        body: "ASAP (as soon as possible), EOD (end of day), EOW (end of week), FYI (for your information), FYA (for your action), TL;DR (too long; didn't read — summary), OOO (out of office), WFH (work from home), PTO (paid time off), KPI/OKR (objectives), 1:1 (one-to-one meeting), heads-up, circle back, loop in, sync up.",
       },
       {
-        title: "Tonul: cum eviți să suni nepoliticos accidental",
-        body: "„Per my last email” = pasiv-agresiv; folosește „As mentioned previously…”. „K.” = rece; minim „Sounds good!”. „Why didn't you…?” → „Just curious — what was the thinking behind…?”. Adaugă „please”, „when you get a chance”, „happy to discuss”.",
+        title: "Tone: how to avoid sounding rude by accident",
+        body: "‘Per my last email’ = passive-aggressive; use ‘As mentioned previously…’. ‘K.’ = cold; at least ‘Sounds good!’. ‘Why didn't you…?’ → ‘Just curious — what was the thinking behind…?’. Add ‘please’, ‘when you get a chance’, ‘happy to discuss’.",
       },
     ],
     vocabulary: [
@@ -584,7 +584,7 @@ export const LESSONS: Lesson[] = [
     exercises: [
       {
         kind: "choice",
-        prompt: "Cel mai potrivit subiect de email C1:",
+        prompt: "The most appropriate C1 email subject line:",
         options: [
           "Hi",
           "Quick question!!!",
@@ -596,29 +596,29 @@ export const LESSONS: Lesson[] = [
         kind: "fill",
         prompt: "Looping ____ Sarah for visibility on this.",
         answers: ["in"],
-        hint: "phrasal verb: a include pe cineva",
+        hint: "Phrasal verb: include someone",
       },
       {
         kind: "transform",
-        prompt: "Suavizează tonul (rescrie politicos):",
+        prompt: "Soften the tone (rewrite politely):",
         sentence: "Why didn't you reply to my last email?",
         answers: [
           "just checking in — did my last email reach you ok?",
           "just following up on my last email — let me know when you get a chance",
           "just wanted to follow up on my previous email when you have a moment",
         ],
-        hint: "„Just following up…” + „when you get a chance”",
+        hint: "‘Just following up…’ + ‘when you get a chance’",
       },
       {
         kind: "choice",
-        prompt: "„Per my last email” într-un răspuns:",
+        prompt: "‘Per my last email’ in a reply is:",
         options: [
-          "Profesionist și clar.",
-          "Pasiv-agresiv — evită.",
-          "Foarte politicos.",
+          "Professional and clear.",
+          "Passive-aggressive — avoid.",
+          "Very polite.",
         ],
         correct: 1,
-        explain: "E celebru ca formulă pasiv-agresivă. Folosește „As mentioned previously” sau rezumă din nou.",
+        explain: "Famously read as passive-aggressive. Use ‘As mentioned previously’ or just resummarise.",
       },
       {
         kind: "fill",
@@ -628,8 +628,8 @@ export const LESSONS: Lesson[] = [
     ],
     freePrompt: {
       prompt:
-        "Scrie un email scurt (80-100 cuvinte) către un client cerând feedback pe un proiect. Folosește: subiect specific, o formulă de încălzire, cererea cu hedging, un termen sugerat și o închidere profesională.",
-      hint: "„I hope this finds you well…”, „I'd be grateful if…”, „by EOW”, „Kind regards”.",
+        "Write a short email (80–100 words) to a client asking for feedback on a project. Use: a specific subject, a warm-up line, the request with hedging, a suggested deadline, and a professional sign-off.",
+      hint: "‘I hope this finds you well…’, ‘I'd be grateful if…’, ‘by EOW’, ‘Kind regards’.",
     },
     match: [
       { en: "To loop in", ro: "A include pe email" },
@@ -649,43 +649,43 @@ export const LESSONS: Lesson[] = [
   {
     slug: "social-media",
     title: "Social Media & Internet Culture",
-    titleRo: "Pe rețelele sociale",
+    tagline: "Captions, comments, memes, vibes",
     emoji: "📱",
     image: socialImg,
     level: "C1",
-    cefr: "Engleză vie, în evoluție · meme literacy · Gen-Z slang",
+    cefr: "Living English · meme literacy · Gen-Z slang",
     summary:
-      "Caption-uri, comentarii, DM-uri, meme. Engleza de internet trăiește repede — vocabular Gen-Z, ironie meta și granița dintre cool și cringe.",
+      "Captions, comments, DMs, memes. Internet English moves fast — Gen-Z vocabulary, meta-irony, and the thin line between cool and cringe.",
     dialog: [
-      { speaker: "IG caption", en: "currently down a Lisbon rabbit hole 🇵🇹 send recs", ro: "momentan adâncit într-o spirală Lisabona 🇵🇹 trimiteți recomandări" },
-      { speaker: "Comment", en: "okay but the lighting in that second pic is unreal ✨", ro: "ok dar lumina din a doua poză e nereală ✨" },
-      { speaker: "Reply", en: "right?? pure golden hour magic, no filter", ro: "așa-i?? magie pură de golden hour, fără filtru" },
-      { speaker: "TikTok caption", en: "POV: you said \"just one drink\" three hours ago 🙃 #relatable", ro: "POV: ai zis „doar un pahar” acum trei ore 🙃 #relatable" },
-      { speaker: "DM", en: "hey! saw your story — that café screams my aesthetic. drop the @ when you have a sec?", ro: "salut! ți-am văzut story-ul — cafeneaua aia strigă estetica mea. îmi dai @-ul când ai un moment?" },
-      { speaker: "You", en: "ahaha it's called Brew & Bloom — tiny, no wifi, perfect vibes. you'd live there.", ro: "ahaha se numește Brew & Bloom — micuță, fără wifi, vibe perfect. ai locui acolo." },
-      { speaker: "X / Twitter", en: "hot take: airport coffee is good, actually. fight me.", ro: "părere controversată: cafeaua de la aeroport e bună, de fapt. luptați-mă." },
-      { speaker: "Reply", en: "this is the wildest thing I've read all week 😭", ro: "ăsta e cel mai sălbatic lucru pe care l-am citit săptămâna asta 😭" },
+      { speaker: "IG caption", en: "currently down a Lisbon rabbit hole 🇵🇹 send recs" },
+      { speaker: "Comment", en: "okay but the lighting in that second pic is unreal ✨" },
+      { speaker: "Reply", en: "right?? pure golden hour magic, no filter" },
+      { speaker: "TikTok caption", en: "POV: you said \"just one drink\" three hours ago 🙃 #relatable" },
+      { speaker: "DM", en: "hey! saw your story — that café screams my aesthetic. drop the @ when you have a sec?" },
+      { speaker: "You", en: "ahaha it's called Brew & Bloom — tiny, no wifi, perfect vibes. you'd live there." },
+      { speaker: "X / Twitter", en: "hot take: airport coffee is good, actually. fight me." },
+      { speaker: "Reply", en: "this is the wildest thing I've read all week 😭" },
     ],
     explanations: [
       {
-        title: "Gramatica internetului: regulile noi",
-        body: "Lowercase intenționat = ton casual, ironic, „relaxat”. Capitalizare = strigă sau emfază. Punct la final într-un text = sună sec, supărat. „lol” și „lmao” NU mai înseamnă întotdeauna „râd” — sunt softener-e (atenuatori). „K.” e tăios; „kk” e prietenos.",
+        title: "Internet grammar: the new rules",
+        body: "Deliberate lowercase = casual, ironic, ‘chill’ tone. ALL CAPS = shouting or strong emphasis. A full stop at the end of a text reads as dry, even annoyed. ‘lol’ and ‘lmao’ rarely mean actual laughing anymore — they're softeners. ‘K.’ is curt; ‘kk’ is friendly.",
       },
       {
-        title: "Gen-Z slang activ în 2025",
-        body: "slay (excelent), no cap (serios), it's giving X (transmite vibe-ul de X), main character energy (carismă centrală), the algorithm fed me (mi-a apărut în feed), unhinged (nebun, în sens pozitiv), iconic, lowkey/highkey (oarecum/intens), tea (bârfă), spill the tea, era (perioadă: „my running era”), based (curajos), mid (mediocru), it ate (a fost perfect), delulu (delusional — autoironic).",
+        title: "Active Gen-Z slang (2025)",
+        body: "slay (excellent), no cap (no lie / serious), it's giving X (gives off the vibe of X), main character energy (central, charismatic presence), the algorithm fed me (it showed up in my feed), unhinged (wild — often positive), iconic, lowkey/highkey (somewhat / intensely), tea (gossip), spill the tea, era (phase: ‘my running era’), based (boldly opinionated), mid (mediocre), it ate (it was flawless), delulu (delusional — self-mocking).",
       },
       {
-        title: "Meme literacy: structuri recunoscute",
-        body: "„POV: you…” = perspectiva personajului. „No one: / Me: …” = nimeni n-a întrebat, dar uite. „It's giving [adjectiv]” = transmite vibe-ul de. „Tell me you're X without telling me you're X.” „This is the [adjectiv]-est thing.” Acestea sunt cadre meme — recunoaște-le, folosește-le contextual.",
+        title: "Meme literacy: recognised structures",
+        body: "‘POV: you…’ = the character's perspective. ‘No one: / Me: …’ = nobody asked, but here it is. ‘It's giving [adjective]’ = gives off the vibe of. ‘Tell me you're X without telling me you're X.’ ‘This is the [adj]-est thing.’ These are meme frames — recognise them, deploy them in the right context.",
       },
       {
-        title: "Ironie meta și autodepreciere",
-        body: "Engleza online merge pe autodepreciere ironică: „i am once again opening LinkedIn to feel bad about myself”, „crying screaming throwing up” (despre lucruri ușoare), „I cannot be normal about this”. NU lua literal — e amuzament prin exagerare.",
+        title: "Meta-irony and self-deprecation",
+        body: "Online English runs on ironic self-deprecation: ‘i am once again opening LinkedIn to feel bad about myself’, ‘crying screaming throwing up’ (about something tiny), ‘I cannot be normal about this’. Don't read it literally — it's humour through exaggeration.",
       },
       {
-        title: "Granița dintre cool și cringe",
-        body: "Cringe = folosirea forțată, întârziată sau în context greșit. „How do you do, fellow kids?” energy. Reguli: 1) nu folosi slang pe care nu-l înțelegi complet, 2) un brand corporate folosind „slay” = instant cringe, 3) slang se învechește RAPID (un an = expirat). Privește ca observator înainte de a folosi.",
+        title: "The line between cool and cringe",
+        body: "Cringe = forced, late or misplaced use. ‘How do you do, fellow kids?’ energy. Rules: 1) don't use slang you don't fully understand, 2) a corporate brand using ‘slay’ = instant cringe, 3) slang ages FAST (one year = expired). Watch first, deploy later.",
       },
     ],
     vocabulary: [
@@ -705,11 +705,11 @@ export const LESSONS: Lesson[] = [
     exercises: [
       {
         kind: "choice",
-        prompt: "„This outfit is giving main character energy” înseamnă:",
+        prompt: "‘This outfit is giving main character energy’ means:",
         options: [
-          "Hainele aparțin personajului principal.",
-          "Outfit-ul transmite carismă, atitudine de protagonist.",
-          "Outfit-ul e prea simplu.",
+          "The clothes belong to the main character.",
+          "The outfit projects charisma, protagonist energy.",
+          "The outfit is too plain.",
         ],
         correct: 1,
       },
@@ -720,20 +720,20 @@ export const LESSONS: Lesson[] = [
       },
       {
         kind: "choice",
-        prompt: "Un brand corporate scrie „we just dropped our new collection — it slays, no cap”. Reacția nativă:",
-        options: ["Foarte cool, vor cumpăra.", "Cringe — slang forțat de marketing.", "Foarte profesionist."],
+        prompt: "A corporate brand posts ‘we just dropped our new collection — it slays, no cap’. A native reaction:",
+        options: ["Very cool, they'll buy.", "Cringe — forced marketing slang.", "Very professional."],
         correct: 1,
       },
       {
         kind: "transform",
-        prompt: "Scrie un caption Instagram (max 12 cuvinte) pentru o poză cu cafea de dimineață. Folosește lowercase intenționat:",
+        prompt: "Write an Instagram caption (max 12 words) for a morning coffee photo. Use deliberate lowercase:",
         sentence: "I am drinking coffee on a beautiful Tuesday morning.",
         answers: ["tuesday morning energy ☕"],
-        hint: "Nu există un singur răspuns corect. Încearcă ceva scurt, casual: „slow tuesday”, „coffee era”, „it's giving monday again”. Răspunsul afișat e doar un exemplu.",
+        hint: "There isn't one correct answer. Try something short and casual: ‘slow tuesday’, ‘coffee era’, ‘it's giving monday again’. The displayed answer is just one example.",
       },
       {
         kind: "choice",
-        prompt: "Care propoziție e cea mai ironică / Gen-Z?",
+        prompt: "Which sentence sounds most ironic / Gen-Z?",
         options: [
           "I really enjoyed the film.",
           "i cannot be normal about this movie. crying. screaming. throwing up.",
@@ -744,8 +744,8 @@ export const LESSONS: Lesson[] = [
     ],
     freePrompt: {
       prompt:
-        "Scrie un caption (max 25 cuvinte) + un comentariu de prieten + un răspuns al tău. Subiect: prima zi într-un oraș nou. Folosește lowercase, un emoji, și o structură meme („POV:”, „it's giving”, „no one: / me:”).",
-      hint: "Caption → comment → reply. Citește-l cu voce tare: dacă sună ca un copywriter de bancă, mai relaxează tonul.",
+        "Write a caption (max 25 words) + a friend's comment + your reply. Topic: first day in a new city. Use lowercase, an emoji, and a meme structure (‘POV:’, ‘it's giving’, ‘no one: / me:’).",
+      hint: "Caption → comment → reply. Read it out loud: if it sounds like a bank's copywriter, loosen it up.",
     },
     match: [
       { en: "It's giving main character energy.", ro: "Transmite carismă de protagonist." },
