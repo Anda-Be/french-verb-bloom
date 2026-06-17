@@ -1,3 +1,10 @@
+import restaurantImg from "@/assets/lesson-restaurant.jpg";
+import airportImg from "@/assets/lesson-airport.jpg";
+import interviewImg from "@/assets/lesson-interview.jpg";
+import friendsImg from "@/assets/lesson-friends.jpg";
+import onlineImg from "@/assets/lesson-online.jpg";
+import socialImg from "@/assets/lesson-social.jpg";
+
 export type DialogLine = { speaker: string; en: string; ro: string };
 
 export type Exercise =
