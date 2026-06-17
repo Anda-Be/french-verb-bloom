@@ -27,8 +27,16 @@ export function SiteHeader() {
           >
             Lessons
           </Link>
+          <Link
+            to="/review"
+            className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
+            activeProps={{ className: "rounded-md px-3 py-2 text-foreground bg-secondary font-medium" }}
+          >
+            Review
+          </Link>
           <ThemeToggle />
         </nav>
+
       </div>
     </header>
   );
