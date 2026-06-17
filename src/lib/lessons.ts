@@ -765,6 +765,496 @@ export const LESSONS: Lesson[] = [
   },
 ];
 
+  },
+
+  // =========================================================================
+  // DOCTOR'S APPOINTMENT
+  // =========================================================================
+  {
+    slug: "doctor",
+    title: "At the Doctor's",
+    tagline: "Describing symptoms and understanding a diagnosis — without panicking",
+    emoji: "🩺",
+    image: doctorImg,
+    level: "C1",
+    cefr: "Medical register · symptom vocabulary · hedged self-diagnosis",
+    summary:
+      "How to walk into a GP's office and actually be understood: pinpointing symptoms, answering screening questions, and parsing the doctor's careful, often non-committal English.",
+    dialog: [
+      { speaker: "Receptionist", en: "Morning. Have you been with us before, or is this your first visit?" },
+      { speaker: "You", en: "First time, actually. I registered online last week." },
+      { speaker: "Receptionist", en: "Lovely. Take a seat — Dr Bennett will call you through in a moment." },
+      { speaker: "Doctor", en: "Come in, have a seat. So, what seems to be the trouble today?" },
+      { speaker: "You", en: "I've had this nagging headache for about a week now, mostly behind my eyes, and it's been getting worse." },
+      { speaker: "Doctor", en: "On a scale of one to ten, how would you rate the pain at its worst?" },
+      { speaker: "You", en: "Maybe a seven. It comes and goes, but lately it's been keeping me up at night." },
+      { speaker: "Doctor", en: "Any nausea, dizziness, or sensitivity to light along with it?" },
+      { speaker: "You", en: "A bit of dizziness, yes. And I've been feeling run down generally." },
+      { speaker: "Doctor", en: "Right. Let's have a quick look. Any history of migraines in the family?" },
+      { speaker: "You", en: "My mum used to get them, but I've never had anything like this before." },
+      { speaker: "Doctor", en: "It's most likely tension-related, but I'd like to rule out anything more serious. I'll refer you for a blood test, and in the meantime I'll prescribe something to take the edge off." },
+      { speaker: "You", en: "How long should I give it before coming back if it doesn't clear up?" },
+      { speaker: "Doctor", en: "If you're not feeling significantly better within ten days, do book a follow-up." },
+    ],
+    explanations: [
+      {
+        title: "Present perfect for ongoing symptoms",
+        body: "Symptoms still happening at the time of the consultation take present perfect (continuous when emphasising duration): ‘I've had a headache for a week’, ‘I've been feeling dizzy since Monday’. The simple past (‘I had a headache’) sounds like it's over — and the doctor will tick the wrong box.",
+      },
+      {
+        title: "Doctor's hedging: ‘most likely’, ‘rule out’, ‘unlikely to be’",
+        body: "Doctors almost never commit. Listen for ‘it's most likely…’, ‘it could be…’, ‘I'd like to rule out…’, ‘it's unlikely to be anything serious, but…’. ‘Rule out’ = to exclude as a possibility. None of this means they don't know; it's professional caution.",
+      },
+      {
+        title: "Phrasal verbs that survive only in clinical English",
+        body: "to come down with (something) = to start getting an illness; to come on (of symptoms) = to start; to wear off = to fade (of medicine); to flare up = to suddenly get worse; to clear up = to resolve; to take the edge off = to make less severe (often of pain).",
+      },
+      {
+        title: "Pain vocabulary by quality, not just intensity",
+        body: "Sharp, stabbing, throbbing, dull, nagging, shooting, aching, burning, tight, splitting (typically of headache). ‘A nagging pain’ is mild but persistent. ‘A splitting headache’ is severe. ‘It comes and goes’ = intermittent — the standard phrase you'll hear and use.",
+      },
+      {
+        title: "Polite imperatives in clinical instructions",
+        body: "‘Do book a follow-up’ — the ‘do’ here is emphatic-polite, not commanding. Other softeners: ‘Pop your sleeve up for me’, ‘Just lie back’, ‘Let's have a quick look’. The ‘let's’ and ‘we’ in ‘How are we feeling today?’ are the famous clinical ‘we’ — slightly patronising but ubiquitous.",
+      },
+    ],
+    vocabulary: [
+      { term: "to come down with (something)", type: "phrasal", meaning: "a se îmbolnăvi de", example: "I think I'm coming down with the flu." },
+      { term: "to take the edge off", type: "idiom", meaning: "a mai atenua (durerea / disconfortul)", example: "These tablets should take the edge off the pain." },
+      { term: "to rule (something) out", type: "phrasal", meaning: "a exclude (un diagnostic)", example: "We'll do a scan to rule out anything more serious." },
+      { term: "a nagging pain", type: "collocation", meaning: "o durere persistentă, surdă", example: "I've had a nagging pain in my lower back for days." },
+      { term: "to flare up", type: "phrasal", meaning: "a se agrava brusc (de obicei cronic)", example: "My asthma flares up in the spring." },
+      { term: "run down", type: "expression", meaning: "epuizat, slăbit (general)", example: "I've been feeling really run down lately." },
+      { term: "to clear up", type: "phrasal", meaning: "a se rezolva / a trece (de la sine)", example: "The rash should clear up within a few days." },
+      { term: "a splitting headache", type: "collocation", meaning: "o durere de cap cumplită", example: "I woke up with a splitting headache." },
+    ],
+    exercises: [
+      {
+        kind: "fill",
+        prompt: "I've ____ feeling dizzy since yesterday morning.",
+        answers: ["been"],
+        hint: "Present perfect continuous — ongoing symptom.",
+      },
+      {
+        kind: "choice",
+        prompt: "‘I'd like to rule out anything more serious’ means:",
+        options: [
+          "I'm sure it's nothing.",
+          "I want to exclude the possibility of something worse.",
+          "I refuse to consider serious causes.",
+        ],
+        correct: 1,
+        explain: "‘Rule out’ = exclude as a possibility, usually via tests.",
+      },
+      {
+        kind: "transform",
+        prompt: "Rewrite using a phrasal verb from the lesson:",
+        sentence: "I think I'm starting to get a cold.",
+        answers: [
+          "i think i'm coming down with a cold",
+          "i think i am coming down with a cold",
+        ],
+        hint: "‘to ___ ___ ___ something’ = to start being ill with",
+      },
+      {
+        kind: "fill",
+        prompt: "The painkillers will ____ the edge off until you see the specialist.",
+        answers: ["take"],
+        hint: "Idiom: ___ the edge off.",
+      },
+      {
+        kind: "choice",
+        prompt: "Which best describes a ‘nagging’ pain?",
+        options: ["sudden and sharp", "mild but won't go away", "burning and intense"],
+        correct: 1,
+      },
+    ],
+    freePrompt: {
+      prompt:
+        "Imagine you're describing a recent minor illness to your GP. Write 60–90 words. Use at least: one present perfect for duration, one pain adjective, and one phrasal verb from the lesson.",
+      hint: "Start with ‘I've been feeling… for about…’.",
+    },
+    match: [
+      { en: "What seems to be the trouble?", ro: "Cu ce vă pot ajuta? (la medic)" },
+      { en: "It comes and goes.", ro: "Vine și pleacă (intermitent)." },
+      { en: "I've been feeling run down.", ro: "Mă simt epuizat(ă) / fără chef." },
+      { en: "To rule out anything serious.", ro: "A exclude ceva grav." },
+      { en: "To take the edge off.", ro: "A mai atenua (durerea)." },
+      { en: "I'll prescribe you something.", ro: "Vă prescriu ceva." },
+      { en: "Book a follow-up.", ro: "Programați-vă un control." },
+    ],
+  },
+
+  // =========================================================================
+  // RENTING AN APARTMENT
+  // =========================================================================
+  {
+    slug: "apartment",
+    title: "Renting a Flat",
+    tagline: "Viewing a place, negotiating terms, and reading between the agent's lines",
+    emoji: "🔑",
+    image: apartmentImg,
+    level: "C1",
+    cefr: "Property vocabulary · negotiation register · euphemism decoding",
+    summary:
+      "The English rental market runs on euphemisms (‘cosy’, ‘characterful’) and contractual fine print. This lesson teaches you to view a flat critically, ask the right questions, and push back politely on terms.",
+    dialog: [
+      { speaker: "Agent", en: "So this is the main living area — south-facing, gets gorgeous light in the afternoons." },
+      { speaker: "You", en: "It's smaller than it looked online. Are the dimensions on the listing accurate?" },
+      { speaker: "Agent", en: "Roughly, yes. It's a cosy space, but very efficient — every inch is usable." },
+      { speaker: "You", en: "‘Cosy’ usually means ‘small’, doesn't it? What's the square footage?" },
+      { speaker: "Agent", en: "Just over forty square metres. Bedroom's through here — generous storage, as you can see." },
+      { speaker: "You", en: "Is the rent negotiable, or is the listed price set in stone?" },
+      { speaker: "Agent", en: "There may be some wiggle room if you're willing to sign a longer lease — say, two years instead of one." },
+      { speaker: "You", en: "What about bills? Are utilities included, or are we looking at extras on top?" },
+      { speaker: "Agent", en: "Council tax and water are included; you'd be responsible for gas, electricity and internet." },
+      { speaker: "You", en: "And how much is the deposit? Is it the standard five weeks' rent?" },
+      { speaker: "Agent", en: "Five weeks, held in a government-protected scheme. You'd get it back at the end of the tenancy, minus any deductions." },
+      { speaker: "You", en: "One concern — that damp patch on the ceiling. Has the landlord looked into it?" },
+      { speaker: "Agent", en: "It's been flagged. The landlord's lined up a contractor to sort it before move-in." },
+      { speaker: "You", en: "If we decide to go ahead, how soon would we need to put down a holding deposit?" },
+    ],
+    explanations: [
+      {
+        title: "Estate-agent euphemisms — the decoder ring",
+        body: "‘Cosy’ = small. ‘Compact’ = very small. ‘Characterful’ = old, possibly draughty. ‘Up-and-coming area’ = not yet safe at night. ‘In need of some TLC’ (tender loving care) = needs work. ‘Deceptively spacious’ = looks small but isn't (this one is actually positive). ‘A real opportunity’ = a problem someone else will inherit.",
+      },
+      {
+        title: "Conditionals for negotiation",
+        body: "Second conditional is the negotiator's tool: ‘If we signed a two-year lease, would you consider knocking off £50?’, ‘Would you be willing to include the white goods if we moved in next week?’. The past tense (‘signed’, ‘moved’) makes the offer hypothetical and therefore non-committal — easy to walk back from.",
+      },
+      {
+        title: "Property vocabulary — UK vs US",
+        body: "UK: flat, lift, ground floor, first floor, garden, tap, hob, fortnight, deposit, letting agent, tenancy, landlord. US equivalents: apartment, elevator, first floor, second floor, yard, faucet, stove, two weeks, security deposit, real estate agent, lease, landlord. Bills: council tax (UK property tax to the local council).",
+      },
+      {
+        title: "‘To be looking at’ + cost / time / problem",
+        body: "‘You're looking at around £200 a month for bills.’ ‘We're looking at a six-week turnaround.’ ‘If we don't fix it now, we're looking at structural damage.’ It's a softener: the speaker isn't telling you, they're inviting you to look with them. Very common in commercial / contractual English.",
+      },
+      {
+        title: "Phrasal verbs for arranging and committing",
+        body: "to line up (a contractor) = to arrange in advance; to put down (a deposit) = to pay upfront; to fall through (of a deal) = to collapse before completion; to go through with (something) = to follow through on a commitment; to back out = to withdraw at the last minute.",
+      },
+    ],
+    vocabulary: [
+      { term: "wiggle room", type: "idiom", meaning: "marjă de negociere, spațiu de manevră", example: "There might be some wiggle room on the price." },
+      { term: "set in stone", type: "idiom", meaning: "bătut în cuie, definitiv", example: "The deadline isn't set in stone." },
+      { term: "to put (something) down", type: "phrasal", meaning: "a depune (un avans)", example: "We had to put down two months' rent as a deposit." },
+      { term: "to fall through", type: "phrasal", meaning: "a pica (un acord, o tranzacție)", example: "The sale fell through at the last minute." },
+      { term: "to flag (something) up", type: "phrasal", meaning: "a semnala, a aduce în atenție", example: "I flagged it up with the landlord weeks ago." },
+      { term: "in need of some TLC", type: "expression", meaning: "are nevoie de îngrijire / reparații", example: "The kitchen's in need of some TLC." },
+      { term: "to be on top of", type: "expression", meaning: "în plus față de, peste", example: "There's a service charge on top of the rent." },
+      { term: "to look into (something)", type: "phrasal", meaning: "a investiga, a se ocupa de", example: "I'll look into the heating issue this week." },
+    ],
+    exercises: [
+      {
+        kind: "fill",
+        prompt: "Is the price ____ in stone, or is there room to negotiate?",
+        answers: ["set"],
+        hint: "Idiom: ___ in stone = fixed.",
+      },
+      {
+        kind: "choice",
+        prompt: "An agent describes a flat as ‘characterful’. They probably mean:",
+        options: [
+          "modern and beautifully renovated",
+          "old, quirky, possibly draughty",
+          "in a famous neighbourhood",
+        ],
+        correct: 1,
+        explain: "Classic estate-agent euphemism for ‘old and unrenovated’.",
+      },
+      {
+        kind: "transform",
+        prompt: "Rewrite as a negotiating offer using the second conditional:",
+        sentence: "We sign a two-year lease and you reduce the rent.",
+        answers: [
+          "if we signed a two-year lease, would you reduce the rent",
+          "if we signed a two-year lease would you reduce the rent",
+          "would you reduce the rent if we signed a two-year lease",
+        ],
+        hint: "‘If we ___ (past), would you ___?’",
+      },
+      {
+        kind: "fill",
+        prompt: "The deal ____ through because they couldn't get a mortgage.",
+        answers: ["fell"],
+        hint: "Phrasal: ___ through = to collapse.",
+      },
+      {
+        kind: "choice",
+        prompt: "‘Wiggle room’ means:",
+        options: ["a small room", "space to negotiate or adjust", "an awkward layout"],
+        correct: 1,
+      },
+    ],
+    freePrompt: {
+      prompt:
+        "Write a short email (70–100 words) to a letting agent after a flat viewing. Include: one polite negotiation using the second conditional, one concern you'd like flagged, and one question about the lease.",
+      hint: "Open with ‘Thanks for showing us round the flat on Saturday.’",
+    },
+    match: [
+      { en: "Is there any wiggle room on the price?", ro: "Există marjă de negociere la preț?" },
+      { en: "It's set in stone.", ro: "E bătut în cuie." },
+      { en: "Are utilities included?", ro: "Sunt utilitățile incluse?" },
+      { en: "To put down a deposit.", ro: "A depune un avans / garanție." },
+      { en: "The deal fell through.", ro: "Tranzacția a picat." },
+      { en: "On top of the rent.", ro: "În plus față de chirie." },
+      { en: "In need of some TLC.", ro: "Are nevoie de niște îngrijire / reparații." },
+    ],
+  },
+
+  // =========================================================================
+  // CUSTOMER SERVICE / COMPLAINT BY PHONE
+  // =========================================================================
+  {
+    slug: "customer-service",
+    title: "Calling Customer Service",
+    tagline: "Getting a refund without losing your cool",
+    emoji: "📞",
+    image: customerServiceImg,
+    level: "C1",
+    cefr: "Service register · assertive politeness · escalation language",
+    summary:
+      "How to ring a company about a faulty product or wrong charge, stay firm but courteous, and escalate without burning the bridge. The English here is performative — both sides know the script.",
+    dialog: [
+      { speaker: "Agent", en: "Thanks for calling support. You're through to Daniel — how can I help you today?" },
+      { speaker: "You", en: "Hi Daniel. I placed an order last Tuesday and it arrived this morning, but the item's damaged." },
+      { speaker: "Agent", en: "I'm really sorry to hear that. Could I take your order number, please?" },
+      { speaker: "You", en: "Of course — it's GB-447-921." },
+      { speaker: "Agent", en: "Thank you. Bear with me one moment while I pull that up… Right, I can see the order. Could you describe the damage?" },
+      { speaker: "You", en: "The screen is cracked, and the packaging looks like it was crushed in transit." },
+      { speaker: "Agent", en: "I do apologise. I can offer you a partial refund of twenty percent if you'd like to keep the item." },
+      { speaker: "You", en: "I appreciate the offer, but I'd rather have a full refund or a replacement, to be honest. The item isn't usable in this condition." },
+      { speaker: "Agent", en: "Understood. In that case, I'll arrange a free return and process a full refund once we receive it back." },
+      { speaker: "You", en: "How long is the refund likely to take once you've got the item?" },
+      { speaker: "Agent", en: "Typically three to five working days, depending on your bank." },
+      { speaker: "You", en: "That's a bit longer than I was hoping for. Is there any way to speed that up?" },
+      { speaker: "Agent", en: "I'm afraid not on my end, but I'll flag it as priority so it's handled as soon as it lands with us." },
+      { speaker: "You", en: "Alright, that works. Could I get that confirmation in writing as well?" },
+      { speaker: "Agent", en: "Absolutely — I'll send it through to the email on your account in the next few minutes." },
+    ],
+    explanations: [
+      {
+        title: "The ritual of customer-service openings",
+        body: "Agents follow a near-fixed script: ‘You're through to [name]’ (= speaking with), ‘How can I help today?’, ‘Bear with me’ (= please wait), ‘Let me pull that up’ (= retrieve on screen). Mirroring this register — calm, named, structured — gets you better service than launching straight into the complaint.",
+      },
+      {
+        title: "Soft refusal with ‘I appreciate…, but…’",
+        body: "‘I appreciate the offer, but…’ / ‘I take your point, but…’ / ‘I understand, but…’ acknowledges the agent has made an effort, then declines. It's miles more effective than ‘No, that's not enough’. Pair it with what you actually want (‘I'd rather have…’) so the conversation moves forward.",
+      },
+      {
+        title: "Modal hedging when asking for more",
+        body: "‘Is there any way to…?’, ‘Would it be possible to…?’, ‘Could you possibly…?’ — all polite ways to push. ‘I was hoping you might be able to…’ is the most deferential. These soften a request that's actually an expectation. Notice that even agents use them when delivering bad news: ‘I'm afraid not’ is the standard refusal.",
+      },
+      {
+        title: "Escalation vocabulary",
+        body: "to escalate (this) = to push up the chain; to speak to your supervisor / manager; to lodge a formal complaint; to log a case / ticket; to file a chargeback (with the bank); a goodwill gesture (= compensation offered without admitting fault). Knowing the words signals you're a serious caller and often shortcuts the negotiation.",
+      },
+      {
+        title: "Future-in-the-past for soft expectations",
+        body: "‘That's a bit longer than I was hoping for.’ ‘I was expecting it to arrive yesterday.’ Past continuous + future-tinged verb (hope, expect, wonder) lets you express disappointment without accusation. The agent isn't attacked; the timeline is.",
+      },
+    ],
+    vocabulary: [
+      { term: "to bear with (someone)", type: "phrasal", meaning: "a avea răbdare cu (cineva)", example: "Bear with me — I'm pulling up your account now." },
+      { term: "to pull (something) up", type: "phrasal", meaning: "a deschide / a afișa (pe ecran)", example: "Let me pull up your order details." },
+      { term: "a goodwill gesture", type: "collocation", meaning: "gest de bunăvoință (compensație fără a recunoaște vina)", example: "We'd like to offer a £20 voucher as a goodwill gesture." },
+      { term: "to escalate (something)", type: "word", meaning: "a escalada, a transmite mai sus", example: "I'd like to escalate this to your manager, please." },
+      { term: "to chase (something) up", type: "phrasal", meaning: "a urmări, a insista pentru", example: "I had to chase up the refund three times." },
+      { term: "to land with (someone)", type: "phrasal", meaning: "a ajunge la cineva (de a fi gestionat)", example: "Once it lands with the warehouse, we'll process it." },
+      { term: "in transit", type: "expression", meaning: "în tranzit, pe drum", example: "The parcel was damaged in transit." },
+      { term: "to lodge a complaint", type: "collocation", meaning: "a depune o reclamație", example: "I'd like to lodge a formal complaint." },
+    ],
+    exercises: [
+      {
+        kind: "fill",
+        prompt: "Could you ____ with me while I check your account?",
+        answers: ["bear"],
+        hint: "Phrasal verb: ___ with me = please wait.",
+      },
+      {
+        kind: "choice",
+        prompt: "The most C1-appropriate way to refuse a partial refund:",
+        options: [
+          "No, I want a full refund.",
+          "That's not enough.",
+          "I appreciate the offer, but I'd rather have a full refund.",
+        ],
+        correct: 2,
+        explain: "Acknowledge + decline + state preference. Classic soft-refusal pattern.",
+      },
+      {
+        kind: "transform",
+        prompt: "Rewrite to express polite disappointment about a delay:",
+        sentence: "That delivery time is too long for me.",
+        answers: [
+          "that's a bit longer than i was hoping for",
+          "that is a bit longer than i was hoping for",
+          "that's longer than i was hoping for",
+        ],
+        hint: "‘That's a bit longer than I was ___ for.’",
+      },
+      {
+        kind: "fill",
+        prompt: "I'd like to ____ this to your supervisor, please.",
+        answers: ["escalate"],
+        hint: "Verb — push up the chain.",
+      },
+      {
+        kind: "choice",
+        prompt: "A ‘goodwill gesture’ is:",
+        options: [
+          "an apology in writing",
+          "compensation offered without admitting fault",
+          "a friendly conversation with the agent",
+        ],
+        correct: 1,
+      },
+    ],
+    freePrompt: {
+      prompt:
+        "Write a short complaint message (70–100 words) to a company about a delayed or faulty order. Use: one soft-refusal pattern, one hedged request, and one escalation phrase.",
+      hint: "Open with ‘I'm writing regarding order #…’.",
+    },
+    match: [
+      { en: "Bear with me a moment.", ro: "Aveți puțină răbdare." },
+      { en: "Let me pull that up.", ro: "Să verific în sistem." },
+      { en: "I appreciate the offer, but…", ro: "Apreciez oferta, dar…" },
+      { en: "A goodwill gesture.", ro: "Un gest de bunăvoință (compensație)." },
+      { en: "To escalate this.", ro: "A transmite mai sus / a escalada." },
+      { en: "Damaged in transit.", ro: "Deteriorat în transport." },
+      { en: "I'd like to lodge a complaint.", ro: "Aș dori să depun o reclamație." },
+    ],
+  },
+
+  // =========================================================================
+  // WORKPLACE MEETING
+  // =========================================================================
+  {
+    slug: "meeting",
+    title: "Speaking Up in Meetings",
+    tagline: "Proposing, disagreeing and steering the room — without dominating it",
+    emoji: "💼",
+    image: meetingImg,
+    level: "C1+",
+    cefr: "Business register · diplomatic disagreement · meeting choreography",
+    summary:
+      "The English meeting is a choreography of turn-taking, hedged proposals and surgical disagreement. This lesson covers the phrases that let you contribute confidently, push back politely and bring others in.",
+    dialog: [
+      { speaker: "Chair", en: "Right, let's get started. Thanks for making time — I know everyone's diary is packed this week." },
+      { speaker: "Chair", en: "First on the agenda: the Q3 roadmap. Anya, would you like to kick us off?" },
+      { speaker: "Anya", en: "Sure. Before I dive in, just a heads-up — the numbers I'm about to share are still provisional." },
+      { speaker: "Anya", en: "The headline is that we're tracking slightly behind on adoption, but ahead on revenue." },
+      { speaker: "Marco", en: "Sorry to jump in — could you clarify what you mean by ‘behind on adoption’? Behind forecast, or behind last quarter?" },
+      { speaker: "Anya", en: "Good question. Behind forecast — last quarter we're actually up." },
+      { speaker: "You", en: "Can I just build on Anya's point for a second? If we're up year-on-year but behind forecast, the issue might be with how we're forecasting, not with the product itself." },
+      { speaker: "Marco", en: "I take your point, but I'd push back slightly — our forecasts have been pretty solid all year." },
+      { speaker: "You", en: "Fair enough. I'm not saying we throw them out, just that we revisit the assumptions." },
+      { speaker: "Chair", en: "Good — let's park that for now and pick it up in a separate session. Anything else on the roadmap?" },
+      { speaker: "Anya", en: "One more thing, if I may — we'll need a decision on the pricing tier by end of next week, otherwise it'll slip into Q4." },
+      { speaker: "Chair", en: "Noted. Can we action that with you, Marco, by Friday?" },
+      { speaker: "Marco", en: "Will do. I'll loop in Sarah and circle back to the group on Thursday." },
+      { speaker: "Chair", en: "Perfect. Let's wrap up there — thanks everyone." },
+    ],
+    explanations: [
+      {
+        title: "Floor-taking without rudeness",
+        body: "‘Sorry to jump in, but…’, ‘Can I just come in here?’, ‘If I could add something quickly…’, ‘Just to build on that…’ — all let you interrupt without sounding like you're interrupting. The apology (‘sorry to…’) is performative — nobody actually thinks you're sorry — but it's the price of admission.",
+      },
+      {
+        title: "Diplomatic disagreement: agree-then-pivot",
+        body: "‘I take your point, but…’, ‘I see where you're coming from, however…’, ‘That's a fair point — I'd just add…’, ‘I'd push back slightly on that.’ Always acknowledge first, then pivot. Bare ‘I disagree’ is fine in informal teams but reads as combative in most professional rooms.",
+      },
+      {
+        title: "Meeting verbs you'll only meet in meetings",
+        body: "to kick off = to start; to dive in = to begin in detail; to park (something) = to set aside for later; to loop (someone) in = to include in a thread/discussion; to circle back = to return to a topic; to action (something) = to assign as a task (verb, jargon); to land on = to reach (a decision); to wrap up = to conclude.",
+      },
+      {
+        title: "Hedging proposals with conditionals and softeners",
+        body: "‘What if we tried…?’, ‘Could we maybe…?’, ‘One option might be to…’, ‘I wonder whether it'd be worth…’. Putting the proposal in question form invites engagement instead of forcing a yes/no. ‘Just an idea, but…’ is the universal disclaimer that lets you float something risky.",
+      },
+      {
+        title: "Bringing others in — the chair's toolkit",
+        body: "‘What are your thoughts, Sarah?’, ‘Anything to add from your side, Marco?’, ‘Let's hear from the team on the ground.’ Senior English speakers actively pull quieter voices in — it's a status move, not a kindness. Learn the phrases even if you're not chairing; using them yourself looks remarkably mature.",
+      },
+    ],
+    vocabulary: [
+      { term: "to kick off", type: "phrasal", meaning: "a începe (o ședință, un proiect)", example: "Shall we kick off with the budget update?" },
+      { term: "to park (something)", type: "phrasal", meaning: "a pune deoparte (pentru mai târziu)", example: "Let's park that and come back to it next week." },
+      { term: "to loop (someone) in", type: "phrasal", meaning: "a include pe cineva (în conversație / email)", example: "I'll loop you in on the email thread." },
+      { term: "to circle back", type: "phrasal", meaning: "a reveni asupra unui subiect", example: "Let me check with the team and circle back tomorrow." },
+      { term: "to action (something)", type: "word", meaning: "a aloca ca sarcină, a transforma în acțiune (jargon)", example: "Can we action that with marketing by Monday?" },
+      { term: "a heads-up", type: "expression", meaning: "o avertizare, un avertisment prietenos", example: "Just a heads-up — the deck isn't final yet." },
+      { term: "to push back (on something)", type: "phrasal", meaning: "a contesta (politicos)", example: "I'd push back on that assumption a little." },
+      { term: "to wrap up", type: "phrasal", meaning: "a încheia, a concluziona", example: "Let's wrap up — we're out of time." },
+    ],
+    exercises: [
+      {
+        kind: "fill",
+        prompt: "Sorry to ____ in, but could you clarify that figure?",
+        answers: ["jump", "come", "cut"],
+        hint: "Phrasal verb for polite interruption.",
+      },
+      {
+        kind: "choice",
+        prompt: "The most diplomatic way to disagree at C1+ is:",
+        options: [
+          "I disagree completely.",
+          "That's wrong.",
+          "I take your point, but I'd push back slightly on that.",
+        ],
+        correct: 2,
+        explain: "Acknowledge then pivot — the agree-then-pivot template.",
+      },
+      {
+        kind: "transform",
+        prompt: "Rewrite as a hedged proposal:",
+        sentence: "We should postpone the launch.",
+        answers: [
+          "what if we postponed the launch",
+          "could we maybe postpone the launch",
+          "one option might be to postpone the launch",
+          "i wonder whether it'd be worth postponing the launch",
+          "i wonder whether it would be worth postponing the launch",
+        ],
+        hint: "Start with ‘What if we…’, ‘Could we maybe…’ or ‘One option might be to…’.",
+      },
+      {
+        kind: "fill",
+        prompt: "Let's ____ that for now and pick it up next week.",
+        answers: ["park"],
+        hint: "Meeting jargon: ___ a topic = set aside.",
+      },
+      {
+        kind: "choice",
+        prompt: "‘I'll loop you in’ means:",
+        options: [
+          "I'll get back to you eventually.",
+          "I'll include you in the conversation / thread.",
+          "I'll loop the recording back.",
+        ],
+        correct: 1,
+      },
+    ],
+    freePrompt: {
+      prompt:
+        "Write a short meeting contribution (60–90 words) in which you (1) politely interrupt, (2) build on someone's point, and (3) push back gently on a different point. Use at least three phrases from the lesson.",
+      hint: "Open with ‘Sorry to jump in, but…’.",
+    },
+    match: [
+      { en: "Shall we kick off?", ro: "Începem?" },
+      { en: "Let's park that for now.", ro: "Să lăsăm asta deoparte deocamdată." },
+      { en: "I'll loop you in.", ro: "Te includ și pe tine (în conversație)." },
+      { en: "I'd push back slightly on that.", ro: "Aș contesta puțin acest lucru." },
+      { en: "Just a heads-up.", ro: "Doar o avertizare prietenoasă." },
+      { en: "Let's circle back to this.", ro: "Să revenim la acest subiect." },
+      { en: "Let's wrap up there.", ro: "Să încheiem aici." },
+    ],
+  },
+];
+
 export const LESSONS_BY_SLUG: Record<string, Lesson> = Object.fromEntries(
   LESSONS.map((l) => [l.slug, l]),
 );
+
