@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { MatchGame } from "@/components/MatchGame";
-import { LESSONS_BY_SLUG } from "@/lib/lessons";
+import { LESSONS, LESSONS_BY_SLUG } from "@/lib/lessons";
 import {
   clearReviewStats,
   getAllStats,
@@ -13,7 +13,14 @@ import {
   type QueueItem,
 } from "@/lib/review";
 
+
+type ReviewSearch = { lesson?: string };
+
 export const Route = createFileRoute("/review")({
+  validateSearch: (raw: Record<string, unknown>): ReviewSearch => {
+    const lesson = typeof raw.lesson === "string" && raw.lesson.length > 0 ? raw.lesson : undefined;
+    return { lesson };
+  },
   head: () => ({
     meta: [
       { title: "Spaced Review — English in Real Life" },
@@ -36,24 +43,54 @@ export const Route = createFileRoute("/review")({
 const LIMIT = 12;
 
 function ReviewPage() {
+  const { lesson } = Route.useSearch();
+  const navigate = useNavigate({ from: "/review" });
   const [tick, setTick] = useState(0);
   const [sessionKey, setSessionKey] = useState(0);
 
   useEffect(() => onReviewStatsChanged(() => setTick((n) => n + 1)), []);
 
-  // Snapshot the queue when the session starts so it doesn't reshuffle
-  // mid-game every time a result is recorded.
-  const queue = useMemo<QueueItem[]>(() => getReviewQueue(LIMIT), [sessionKey]);
+  // Snapshot the queue when the session starts (or the filter changes) so it
+  // doesn't reshuffle mid-game every time a result is recorded.
+  const queue = useMemo<QueueItem[]>(
+    () => getReviewQueue(LIMIT, { lessonSlug: lesson }),
+    [sessionKey, lesson],
+  );
   const summary = useMemo(() => getReviewSummary(), [tick]);
   const allStats = useMemo<PairStat[]>(() => getAllStats(), [tick]);
 
   const pairs = queue.map((q) => ({ en: q.en, ro: q.ro }));
   const origins = queue.map((q) => q.lessonSlug);
 
+  // Lessons the user actually has stats for — only show those in the filter.
+  const lessonsWithStats = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const s of allStats) {
+      if (s.misses > 0 || s.reveals > 0 || s.hints > 0) {
+        counts.set(s.lessonSlug, (counts.get(s.lessonSlug) ?? 0) + 1);
+      }
+    }
+    return LESSONS.filter((l) => counts.has(l.slug)).map((l) => ({
+      slug: l.slug,
+      title: l.title,
+      emoji: l.emoji,
+      count: counts.get(l.slug) ?? 0,
+    }));
+  }, [allStats]);
+
   const topMistakes = [...allStats]
     .filter((s) => s.misses > 0 || s.reveals > 0)
+    .filter((s) => !lesson || s.lessonSlug === lesson)
     .sort((a, b) => b.misses + b.reveals * 2 - (a.misses + a.reveals * 2))
     .slice(0, 8);
+
+  function setLesson(next: string | undefined) {
+    navigate({ search: { lesson: next } });
+    setSessionKey((n) => n + 1);
+  }
+
+  const activeLesson = lesson ? LESSONS_BY_SLUG[lesson] : undefined;
+
 
   return (
     <div className="min-h-screen">
@@ -80,20 +117,75 @@ function ReviewPage() {
           <Stat label="Total misses" value={summary.totalMisses} />
         </section>
 
+        {lessonsWithStats.length > 0 && (
+          <section className="mt-8">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2 className="font-serif text-lg text-foreground">Filter by lesson</h2>
+              {activeLesson && (
+                <button
+                  onClick={() => setLesson(undefined)}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Clear filter
+                </button>
+              )}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <FilterChip
+                label="All lessons"
+                count={summary.withMistakes}
+                active={!lesson}
+                onClick={() => setLesson(undefined)}
+              />
+              {lessonsWithStats.map((l) => (
+                <FilterChip
+                  key={l.slug}
+                  label={`${l.emoji} ${l.title}`}
+                  count={l.count}
+                  active={lesson === l.slug}
+                  onClick={() => setLesson(l.slug)}
+                />
+              ))}
+            </div>
+            {activeLesson && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Showing only pairs from <span className="text-foreground">{activeLesson.title}</span>.
+              </p>
+            )}
+          </section>
+        )}
+
         <section className="mt-10">
+
           {pairs.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
-              <p className="font-serif text-2xl text-foreground">Nothing to review yet.</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Play the match game in any lesson — the pairs you miss will show up here.
+              <p className="font-serif text-2xl text-foreground">
+                {activeLesson
+                  ? `Nothing to review from ${activeLesson.title}.`
+                  : "Nothing to review yet."}
               </p>
-              <Link
-                to="/"
-                className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
-              >
-                Browse lessons
-              </Link>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {activeLesson
+                  ? "You haven't missed any pairs from this lesson — or you've already mastered them. Try another filter."
+                  : "Play the match game in any lesson — the pairs you miss will show up here."}
+              </p>
+              {activeLesson ? (
+                <button
+                  onClick={() => setLesson(undefined)}
+                  className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Show all lessons
+                </button>
+              ) : (
+                <Link
+                  to="/"
+                  className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Browse lessons
+                </Link>
+              )}
             </div>
+
           ) : (
             <>
               <div className="mb-3 flex items-end justify-between gap-3">
@@ -133,26 +225,29 @@ function ReviewPage() {
           <section className="mt-12">
             <h2 className="font-serif text-2xl text-foreground">Your weakest pairs</h2>
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              Highest miss + reveal count across all lessons
+              {activeLesson
+                ? `Highest miss + reveal count in ${activeLesson.title}`
+                : "Highest miss + reveal count across all lessons"}
             </p>
             <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
               <ul className="divide-y divide-border">
                 {topMistakes.map((s) => {
-                  const lesson = LESSONS_BY_SLUG[s.lessonSlug];
+                  const srcLesson = LESSONS_BY_SLUG[s.lessonSlug];
                   return (
                     <li key={`${s.lessonSlug}::${s.en}`} className="grid gap-1 p-4 sm:grid-cols-[1.2fr_1.5fr_auto] sm:items-center sm:gap-4">
                       <div>
                         <div className="font-serif text-base text-foreground">{s.en}</div>
-                        {lesson && (
+                        {srcLesson && (
                           <Link
                             to="/lesson/$slug"
                             params={{ slug: s.lessonSlug }}
                             className="text-[11px] uppercase tracking-widest text-primary hover:underline"
                           >
-                            {lesson.title}
+                            {srcLesson.title}
                           </Link>
                         )}
                       </div>
+
                       <p className="text-sm text-foreground/90">{s.ro}</p>
                       <div className="flex flex-wrap items-center gap-2 text-[11px]">
                         {s.misses > 0 && (
@@ -218,3 +313,39 @@ function Stat({ label, value, accent }: { label: string; value: number; accent?:
     </div>
   );
 }
+
+function FilterChip({
+  label,
+  count,
+  active,
+  onClick,
+}: {
+  label: string;
+  count: number;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      className={[
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs transition-colors",
+        active
+          ? "border-primary bg-primary/10 text-foreground"
+          : "border-border bg-background text-muted-foreground hover:border-primary/60 hover:text-foreground",
+      ].join(" ")}
+    >
+      <span>{label}</span>
+      <span
+        className={[
+          "rounded-full px-1.5 text-[10px]",
+          active ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground",
+        ].join(" ")}
+      >
+        {count}
+      </span>
+    </button>
+  );
+}
+
