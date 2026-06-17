@@ -4,6 +4,11 @@ import interviewImg from "@/assets/lesson-interview.jpg";
 import friendsImg from "@/assets/lesson-friends.jpg";
 import onlineImg from "@/assets/lesson-online.jpg";
 import socialImg from "@/assets/lesson-social.jpg";
+import doctorImg from "@/assets/lesson-doctor.jpg";
+import apartmentImg from "@/assets/lesson-apartment.jpg";
+import customerServiceImg from "@/assets/lesson-customer-service.jpg";
+import meetingImg from "@/assets/lesson-meeting.jpg";
+
 
 export type DialogLine = { speaker: string; en: string };
 
