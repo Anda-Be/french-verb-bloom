@@ -159,17 +159,33 @@ function ReviewPage() {
 
           {pairs.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
-              <p className="font-serif text-2xl text-foreground">Nothing to review yet.</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Play the match game in any lesson — the pairs you miss will show up here.
+              <p className="font-serif text-2xl text-foreground">
+                {activeLesson
+                  ? `Nothing to review from ${activeLesson.title}.`
+                  : "Nothing to review yet."}
               </p>
-              <Link
-                to="/"
-                className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
-              >
-                Browse lessons
-              </Link>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {activeLesson
+                  ? "You haven't missed any pairs from this lesson — or you've already mastered them. Try another filter."
+                  : "Play the match game in any lesson — the pairs you miss will show up here."}
+              </p>
+              {activeLesson ? (
+                <button
+                  onClick={() => setLesson(undefined)}
+                  className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Show all lessons
+                </button>
+              ) : (
+                <Link
+                  to="/"
+                  className="mt-4 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Browse lessons
+                </Link>
+              )}
             </div>
+
           ) : (
             <>
               <div className="mb-3 flex items-end justify-between gap-3">
