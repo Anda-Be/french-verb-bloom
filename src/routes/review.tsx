@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { MatchGame } from "@/components/MatchGame";
-import { LESSONS_BY_SLUG } from "@/lib/lessons";
+import { LESSONS, LESSONS_BY_SLUG } from "@/lib/lessons";
 import {
   clearReviewStats,
   getAllStats,
@@ -12,6 +12,7 @@ import {
   type PairStat,
   type QueueItem,
 } from "@/lib/review";
+
 
 export const Route = createFileRoute("/review")({
   head: () => ({
