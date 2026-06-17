@@ -763,9 +763,8 @@ export const LESSONS: Lesson[] = [
       { en: "Peak cringe", ro: "Culmea jenei" },
     ],
   },
-];
 
-  },
+
 
   // =========================================================================
   // DOCTOR'S APPOINTMENT
