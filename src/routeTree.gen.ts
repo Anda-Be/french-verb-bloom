@@ -9,20 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SplitGuideRouteImport } from './routes/split-guide'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LessonSlugRouteImport } from './routes/lesson.$slug'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SplitGuideRoute = SplitGuideRouteImport.update({
   id: '/split-guide',
   path: '/split-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReviewRoute = ReviewRouteImport.update({
@@ -41,60 +41,64 @@ const LessonSlugRoute = LessonSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/review': typeof ReviewRoute
-  '/split-guide': typeof SplitGuideRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/split-guide': typeof SplitGuideRoute
   '/lesson/$slug': typeof LessonSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/review': typeof ReviewRoute
-  '/split-guide': typeof SplitGuideRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/split-guide': typeof SplitGuideRoute
   '/lesson/$slug': typeof LessonSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/review': typeof ReviewRoute
-  '/split-guide': typeof SplitGuideRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/split-guide': typeof SplitGuideRoute
   '/lesson/$slug': typeof LessonSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/review' | '/split-guide' | '/sitemap.xml' | '/lesson/$slug'
+  fullPaths: '/' | '/review' | '/sitemap.xml' | '/split-guide' | '/lesson/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/review' | '/split-guide' | '/sitemap.xml' | '/lesson/$slug'
-  id: '__root__' | '/' | '/review' | '/split-guide' | '/sitemap.xml' | '/lesson/$slug'
+  to: '/' | '/review' | '/sitemap.xml' | '/split-guide' | '/lesson/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/review'
+    | '/sitemap.xml'
+    | '/split-guide'
+    | '/lesson/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ReviewRoute: typeof ReviewRoute
-  SplitGuideRoute: typeof SplitGuideRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SplitGuideRoute: typeof SplitGuideRoute
   LessonSlugRoute: typeof LessonSlugRoute
 }
 
-
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/split-guide': {
       id: '/split-guide'
       path: '/split-guide'
       fullPath: '/split-guide'
       preLoaderRoute: typeof SplitGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/review': {
@@ -124,11 +128,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ReviewRoute: ReviewRoute,
-  SplitGuideRoute: SplitGuideRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SplitGuideRoute: SplitGuideRoute,
   LessonSlugRoute: LessonSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
