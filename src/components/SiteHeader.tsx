@@ -1,7 +1,36 @@
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 
+/**
+ * Show the in-app "Guide" link only in the Lovable editor / preview sandbox,
+ * never on the published site. Published hostnames are e.g.
+ *   english-in-real-life.lovable.app  (or a custom domain)
+ * Editor/preview hostnames are e.g.
+ *   *.lovableproject.com
+ *   id-preview--*.lovable.app
+ *   project--*-dev.lovable.app
+ *   localhost
+ */
+function useIsEditorPreview() {
+  const [isPreview, setIsPreview] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const h = window.location.hostname;
+    const preview =
+      h === "localhost" ||
+      h.endsWith(".lovableproject.com") ||
+      h.startsWith("id-preview--") ||
+      h.endsWith("-dev.lovable.app");
+    setIsPreview(preview);
+  }, []);
+  return isPreview;
+}
+
+
 export function SiteHeader() {
+  const showGuide = useIsEditorPreview();
+
   return (
     <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -34,13 +63,16 @@ export function SiteHeader() {
           >
             Review
           </Link>
-          <Link
-            to="/split-guide"
-            className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
-            activeProps={{ className: "rounded-md px-3 py-2 text-foreground bg-secondary font-medium" }}
-          >
-            Guide
-          </Link>
+          {showGuide ? (
+            <Link
+              to="/split-guide"
+              className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
+              activeProps={{ className: "rounded-md px-3 py-2 text-foreground bg-secondary font-medium" }}
+            >
+              Guide
+            </Link>
+          ) : null}
+
           <ThemeToggle />
 
         </nav>
