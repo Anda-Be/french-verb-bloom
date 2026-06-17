@@ -63,13 +63,16 @@ export function SiteHeader() {
           >
             Review
           </Link>
-          <Link
-            to="/split-guide"
-            className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
-            activeProps={{ className: "rounded-md px-3 py-2 text-foreground bg-secondary font-medium" }}
-          >
-            Guide
-          </Link>
+          {showGuide ? (
+            <Link
+              to="/split-guide"
+              className="rounded-md px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
+              activeProps={{ className: "rounded-md px-3 py-2 text-foreground bg-secondary font-medium" }}
+            >
+              Guide
+            </Link>
+          ) : null}
+
           <ThemeToggle />
 
         </nav>
