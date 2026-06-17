@@ -209,6 +209,50 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
     );
   }
 
+  if (ex.kind === "transform") {
+    return (
+      <div className="rounded-xl border border-border bg-card p-4">
+        <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
+          Exercițiu {index} · Transformă
+        </div>
+        <p className="mt-2 font-serif text-lg text-foreground">{ex.prompt}</p>
+        <p className="mt-2 rounded-md border border-border bg-background px-3 py-2 font-serif italic text-foreground">
+          “{ex.sentence}”
+        </p>
+        {ex.hint && <p className="mt-1 text-xs text-muted-foreground italic">{ex.hint}</p>}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <input
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              setStatus("idle");
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setStatus(ex.answers.includes(normalize(value)) ? "ok" : "no");
+              }
+            }}
+            placeholder="Rescrierea ta în engleză…"
+            className="flex-1 min-w-[200px] rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+          />
+          <button
+            onClick={() => setStatus(ex.answers.includes(normalize(value)) ? "ok" : "no")}
+            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+          >
+            Verifică
+          </button>
+        </div>
+        {status === "ok" && <p className="mt-2 text-sm text-success">✓ Excelent!</p>}
+        {status === "no" && (
+          <p className="mt-2 text-sm text-destructive">
+            ✗ Mai încearcă. Exemple acceptate:
+            <span className="mt-1 block italic text-muted-foreground">{ex.answers.join(" · ")}</span>
+          </p>
+        )}
+      </div>
+    );
+  }
+
   // choice
   return (
     <div className="rounded-xl border border-border bg-card p-4">
