@@ -550,41 +550,44 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
             const sel = selectedLeft === item.id;
             const wrongs = attempts[item.id] ?? 0;
             return (
-              <button
-                key={item.id}
-                disabled={done}
-                onClick={() => pickLeft(item.id)}
-                className={[
-                  "w-full rounded-md border px-3 py-2 text-left text-sm transition-all flex items-center justify-between gap-2",
-                  wasRevealed
-                    ? "border-amber-500/50 bg-amber-500/10 text-muted-foreground line-through"
-                    : done
-                    ? "border-success bg-success/10 text-muted-foreground line-through"
-                    : sel
-                    ? "border-primary bg-primary/10 text-foreground"
-                    : "border-border bg-background hover:border-primary/60",
-                ].join(" ")}
-              >
-                <span>{item.text}</span>
-                <span className="flex shrink-0 items-center gap-1">
-                  {!done && wrongs > 0 && (
-                    <span className="rounded-full bg-destructive/10 px-1.5 text-[10px] text-destructive">
-                      ×{wrongs}
-                    </span>
-                  )}
-                  {!done && hintsFor.has(item.id) && (
-                    <span className="text-[10px]" aria-label="hint used">
-                      💡
-                    </span>
-                  )}
-                  {wasRevealed && (
-                    <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400">
-                      revealed
-                    </span>
-                  )}
-                </span>
-              </button>
+              <div key={item.id} className="flex items-center gap-2">
+                <button
+                  disabled={done}
+                  onClick={() => pickLeft(item.id)}
+                  className={[
+                    "flex-1 rounded-md border px-3 py-2 text-left text-sm transition-all flex items-center justify-between gap-2",
+                    wasRevealed
+                      ? "border-amber-500/50 bg-amber-500/10 text-muted-foreground line-through"
+                      : done
+                      ? "border-success bg-success/10 text-muted-foreground line-through"
+                      : sel
+                      ? "border-primary bg-primary/10 text-foreground"
+                      : "border-border bg-background hover:border-primary/60",
+                  ].join(" ")}
+                >
+                  <span>{item.text}</span>
+                  <span className="flex shrink-0 items-center gap-1">
+                    {!done && wrongs > 0 && (
+                      <span className="rounded-full bg-destructive/10 px-1.5 text-[10px] text-destructive">
+                        ×{wrongs}
+                      </span>
+                    )}
+                    {!done && hintsFor.has(item.id) && (
+                      <span className="text-[10px]" aria-label="hint used">
+                        💡
+                      </span>
+                    )}
+                    {wasRevealed && (
+                      <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400">
+                        revealed
+                      </span>
+                    )}
+                  </span>
+                </button>
+                <SpeakButton text={item.text} lang="en-US" />
+              </div>
             );
+
           })}
         </div>
         <div className="space-y-2">
