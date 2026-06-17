@@ -66,6 +66,7 @@ function LessonPage() {
           </div>
           <h1 className="mt-3 font-serif text-5xl text-foreground">{lesson.title}</h1>
           <p className="mt-1 text-muted-foreground">{lesson.titleRo}</p>
+          <p className="mt-1 text-xs uppercase tracking-widest text-primary">{lesson.cefr}</p>
           <p className="mt-4 text-lg text-muted-foreground">{lesson.summary}</p>
         </header>
 
@@ -100,8 +101,30 @@ function LessonPage() {
           </div>
         </Section>
 
+        {/* Vocabulary */}
+        <Section number="3" title="Vocabular C1" subtitle="Idiomuri, phrasal verbs, colocații.">
+          <div className="overflow-hidden rounded-2xl border border-border bg-card">
+            <ul className="divide-y divide-border">
+              {lesson.vocabulary.map((v, i) => (
+                <li key={i} className="grid gap-1 p-4 sm:grid-cols-[1fr_2fr] sm:gap-4">
+                  <div>
+                    <div className="font-serif text-lg text-foreground">{v.term}</div>
+                    <span className="mt-1 inline-block rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {v.type}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-foreground/90">{v.meaning}</p>
+                    <p className="mt-1 text-sm italic text-muted-foreground">“{v.example}”</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Section>
+
         {/* Exercises */}
-        <Section number="3" title="Exerciții" subtitle="Verifică-te imediat.">
+        <Section number="4" title="Exerciții" subtitle="Completează, alege, transformă.">
           <div className="space-y-4">
             {lesson.exercises.map((ex, i) => (
               <ExerciseCard key={i} index={i + 1} ex={ex} />
@@ -110,12 +133,12 @@ function LessonPage() {
         </Section>
 
         {/* Free response */}
-        <Section number="4" title="Răspuns liber" subtitle="Produci tu limbaj.">
+        <Section number="5" title="Răspuns liber" subtitle="Produci tu limbaj.">
           <FreeResponse prompt={lesson.freePrompt.prompt} hint={lesson.freePrompt.hint} />
         </Section>
 
         {/* Mini-game */}
-        <Section number="5" title="Mini-joc: Match" subtitle="Asociază engleza cu româna.">
+        <Section number="6" title="Mini-joc: Match" subtitle="Asociază engleza cu româna.">
           <MatchGame pairs={lesson.match} />
         </Section>
 
@@ -203,6 +226,50 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
         {status === "no" && (
           <p className="mt-2 text-sm text-destructive">
             ✗ Mai încearcă. (Variante acceptate: {ex.answers.join(", ")})
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  if (ex.kind === "transform") {
+    return (
+      <div className="rounded-xl border border-border bg-card p-4">
+        <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
+          Exercițiu {index} · Transformă
+        </div>
+        <p className="mt-2 font-serif text-lg text-foreground">{ex.prompt}</p>
+        <p className="mt-2 rounded-md border border-border bg-background px-3 py-2 font-serif italic text-foreground">
+          “{ex.sentence}”
+        </p>
+        {ex.hint && <p className="mt-1 text-xs text-muted-foreground italic">{ex.hint}</p>}
+        <div className="mt-3 flex flex-wrap gap-2">
+          <input
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              setStatus("idle");
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setStatus(ex.answers.includes(normalize(value)) ? "ok" : "no");
+              }
+            }}
+            placeholder="Rescrierea ta în engleză…"
+            className="flex-1 min-w-[200px] rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+          />
+          <button
+            onClick={() => setStatus(ex.answers.includes(normalize(value)) ? "ok" : "no")}
+            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+          >
+            Verifică
+          </button>
+        </div>
+        {status === "ok" && <p className="mt-2 text-sm text-success">✓ Excelent!</p>}
+        {status === "no" && (
+          <p className="mt-2 text-sm text-destructive">
+            ✗ Mai încearcă. Exemple acceptate:
+            <span className="mt-1 block italic text-muted-foreground">{ex.answers.join(" · ")}</span>
           </p>
         )}
       </div>
