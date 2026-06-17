@@ -31,7 +31,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label={theme === "dark" ? "Activează tema deschisă" : "Activează tema întunecată"}
+      aria-label={theme === "dark" ? "Activer le mode clair" : "Activer le mode sombre"}
       className="ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors"
     >
       {mounted && theme === "dark" ? (

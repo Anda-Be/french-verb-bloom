@@ -1,29 +1,39 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { LESSONS } from "@/lib/lessons";
+import { MOODS, TENSES } from "@/lib/tenses";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
-import heroImg from "@/assets/hero-collage.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "English in Real Life — Learn the English you actually use" },
+      { title: "Conjugaison — Learn All French Tenses" },
       {
         name: "description",
         content:
-          "Learn English the way you actually use it: at the restaurant, the airport, the job interview, with friends or online. Dialogues, exercises and mini-games at C1.",
+          "Master every French tense: présent, passé composé, imparfait, subjonctif and more. Lessons, conjugation tables, and interactive practice.",
       },
-      { property: "og:title", content: "English in Real Life — Learn the English you actually use" },
+      { property: "og:title", content: "Conjugaison — Learn All French Tenses" },
       {
         property: "og:description",
         content:
-          "The English you actually use — real situations, not abstract word lists.",
+          "Lessons and interactive practice for all French tenses across every mood.",
       },
-      { property: "og:url", content: "https://french-verb-bloom.lovable.app/" },
     ],
-    links: [{ rel: "canonical", href: "https://french-verb-bloom.lovable.app/" }],
   }),
   component: Home,
 });
+
+function DifficultyDots({ level }: { level: 1 | 2 | 3 }) {
+  return (
+    <div className="flex gap-1">
+      {[1, 2, 3].map((i) => (
+        <span
+          key={i}
+          className={`h-1.5 w-1.5 rounded-full ${i <= level ? "bg-primary" : "bg-border"}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 function Home() {
   return (
@@ -37,40 +47,55 @@ function Home() {
           <div className="grid items-end gap-10 md:grid-cols-[1.6fr_1fr]">
             <div>
               <p className="mb-4 text-xs uppercase tracking-[0.28em] text-primary">
-                English in real life
+                Édition complète · Grammaire française
               </p>
               <h1 className="font-serif text-5xl leading-[1.05] text-foreground sm:text-7xl">
-                Speak English
-                <span className="block italic text-primary">the way it's actually spoken.</span>
+                Tous les temps
+                <span className="block italic text-primary">de la langue française.</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-                Every lesson is one real situation. Order at a restaurant, get through check-in,
-                answer an interview question, chat with friends or write an email. No abstract
-                lists.
+                Lessons, conjugation tables, and instant-feedback practice for every tense —
+                from the everyday <em>présent</em> to the literary <em>passé simple</em>.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a
-                  href="#lectii"
+                <Link
+                  to="/practice"
                   className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  Start learning →
+                  Commencer la pratique →
+                </Link>
+                <a
+                  href="#tenses"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+                >
+                  Explorer les temps
                 </a>
               </div>
             </div>
-
-            {/* Hero illustration */}
-            <div className="relative">
-              <div className="overflow-hidden rounded-3xl border border-border shadow-sm">
-                <img
-                  src={heroImg}
-                  alt="Illustration: everyday scenes where you speak English"
-                  width={1536}
-                  height={1024}
-                  className="aspect-[3/2] w-full object-cover"
-                />
+            <div className="relative rounded-2xl border border-border bg-card p-6 shadow-sm">
+              <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-muted-foreground">
+                <span>Conjugaison · Présent</span>
+                <span className="text-primary">être</span>
               </div>
+              <table className="mt-4 w-full font-serif text-lg">
+                <tbody>
+                  {[
+                    ["je", "suis"],
+                    ["tu", "es"],
+                    ["il / elle", "est"],
+                    ["nous", "sommes"],
+                    ["vous", "êtes"],
+                    ["ils / elles", "sont"],
+                  ].map(([p, f]) => (
+                    <tr key={p} className="border-b border-border/50 last:border-0">
+                      <td className="py-1.5 text-muted-foreground">{p}</td>
+                      <td className="py-1.5 text-right text-foreground">{f}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
               <div className="absolute -right-3 -top-3 rounded-full bg-or px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow">
-                6 situations
+                Leçon 01
               </div>
             </div>
           </div>
@@ -81,10 +106,10 @@ function Home() {
       <section className="border-y border-border/60 bg-secondary/40">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-6 py-8 sm:grid-cols-4">
           {[
-            { n: LESSONS.length, l: "Real situations" },
-            { n: "C1", l: "Target level" },
-            { n: "5+", l: "Exercise types" },
-            { n: "🎮", l: "Mini-game in every lesson" },
+            { n: TENSES.length, l: "Temps couverts" },
+            { n: 4, l: "Modes" },
+            { n: "60+", l: "Conjugaisons" },
+            { n: "∞", l: "Questions de pratique" },
           ].map((s) => (
             <div key={s.l} className="text-center">
               <div className="font-serif text-4xl text-primary">{s.n}</div>
@@ -96,55 +121,60 @@ function Home() {
         </div>
       </section>
 
-      {/* Lessons */}
-      <section id="lectii" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-10">
-          <h2 className="font-serif text-4xl text-foreground">The situations</h2>
-          <p className="mt-2 text-muted-foreground">
-            Pick a situation. Read the dialogue, learn the rules, practise, play.
-          </p>
+      {/* Tenses */}
+      <section id="tenses" className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mb-10 flex items-end justify-between gap-6">
+          <div>
+            <h2 className="font-serif text-4xl text-foreground">Les Temps</h2>
+            <p className="mt-2 text-muted-foreground">
+              Organisés par mode. Click any tense to read the lesson and full conjugations.
+            </p>
+          </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {LESSONS.map((l) => (
-            <Link
-              key={l.slug}
-              to="/lesson/$slug"
-              params={{ slug: l.slug }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md"
-            >
-              <div className="aspect-[4/3] overflow-hidden bg-secondary/40">
-                <img
-                  src={l.image}
-                  alt={`Illustration: ${l.title}`}
-                  width={1024}
-                  height={1024}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-2xl">{l.emoji}</div>
-                    <div className="mt-2 font-serif text-2xl text-foreground group-hover:text-primary transition-colors">
-                      {l.title}
-                    </div>
-                    <div className="mt-0.5 text-xs uppercase tracking-widest text-muted-foreground">
-                      {l.tagline}
-                    </div>
-                  </div>
-                  <span className="shrink-0 rounded-full border border-border px-2 py-1 text-[10px] uppercase tracking-wider text-muted-foreground">
-                    {l.level}
+        <div className="space-y-12">
+          {MOODS.map((mood) => {
+            const tenses = TENSES.filter((t) => t.mood === mood);
+            return (
+              <div key={mood}>
+                <div className="mb-5 flex items-baseline gap-4">
+                  <h3 className="font-serif text-2xl text-primary">{mood}</h3>
+                  <div className="h-px flex-1 bg-border" />
+                  <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                    {tenses.length} temps
                   </span>
                 </div>
-                <p className="mt-3 text-sm text-muted-foreground line-clamp-2">{l.summary}</p>
-                <div className="mt-4 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                  Open lesson →
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {tenses.map((t) => (
+                    <Link
+                      key={t.slug}
+                      to="/tense/$slug"
+                      params={{ slug: t.slug }}
+                      className="group relative rounded-xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="font-serif text-xl text-foreground group-hover:text-primary transition-colors">
+                            {t.name}
+                          </div>
+                          <div className="mt-0.5 text-xs uppercase tracking-widest text-muted-foreground">
+                            {t.english}
+                          </div>
+                        </div>
+                        <DifficultyDots level={t.difficulty} />
+                      </div>
+                      <p className="mt-3 text-sm text-muted-foreground line-clamp-2">
+                        {t.summary}
+                      </p>
+                      <div className="mt-4 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                        Lire la leçon →
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
-            </Link>
-          ))}
+            );
+          })}
         </div>
       </section>
 
