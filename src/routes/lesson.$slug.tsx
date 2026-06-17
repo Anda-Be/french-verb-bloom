@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { LESSONS_BY_SLUG, type Exercise, type MatchPair } from "@/lib/lessons";
+import { useState } from "react";
+import { LESSONS_BY_SLUG, type Exercise } from "@/lib/lessons";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
-import { SpeakButton } from "@/components/SpeakButton";
+import { MatchGame } from "@/components/MatchGame";
+
 
 
 export const Route = createFileRoute("/lesson/$slug")({
