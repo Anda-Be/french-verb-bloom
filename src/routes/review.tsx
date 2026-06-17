@@ -225,26 +225,29 @@ function ReviewPage() {
           <section className="mt-12">
             <h2 className="font-serif text-2xl text-foreground">Your weakest pairs</h2>
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              Highest miss + reveal count across all lessons
+              {activeLesson
+                ? `Highest miss + reveal count in ${activeLesson.title}`
+                : "Highest miss + reveal count across all lessons"}
             </p>
             <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
               <ul className="divide-y divide-border">
                 {topMistakes.map((s) => {
-                  const lesson = LESSONS_BY_SLUG[s.lessonSlug];
+                  const srcLesson = LESSONS_BY_SLUG[s.lessonSlug];
                   return (
                     <li key={`${s.lessonSlug}::${s.en}`} className="grid gap-1 p-4 sm:grid-cols-[1.2fr_1.5fr_auto] sm:items-center sm:gap-4">
                       <div>
                         <div className="font-serif text-base text-foreground">{s.en}</div>
-                        {lesson && (
+                        {srcLesson && (
                           <Link
                             to="/lesson/$slug"
                             params={{ slug: s.lessonSlug }}
                             className="text-[11px] uppercase tracking-widest text-primary hover:underline"
                           >
-                            {lesson.title}
+                            {srcLesson.title}
                           </Link>
                         )}
                       </div>
+
                       <p className="text-sm text-foreground/90">{s.ro}</p>
                       <div className="flex flex-wrap items-center gap-2 text-[11px]">
                         {s.misses > 0 && (
