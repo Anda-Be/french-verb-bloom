@@ -14,7 +14,13 @@ import {
 } from "@/lib/review";
 
 
+type ReviewSearch = { lesson?: string };
+
 export const Route = createFileRoute("/review")({
+  validateSearch: (raw: Record<string, unknown>): ReviewSearch => {
+    const lesson = typeof raw.lesson === "string" && raw.lesson.length > 0 ? raw.lesson : undefined;
+    return { lesson };
+  },
   head: () => ({
     meta: [
       { title: "Spaced Review — English in Real Life" },
@@ -37,24 +43,54 @@ export const Route = createFileRoute("/review")({
 const LIMIT = 12;
 
 function ReviewPage() {
+  const { lesson } = Route.useSearch();
+  const navigate = useNavigate({ from: "/review" });
   const [tick, setTick] = useState(0);
   const [sessionKey, setSessionKey] = useState(0);
 
   useEffect(() => onReviewStatsChanged(() => setTick((n) => n + 1)), []);
 
-  // Snapshot the queue when the session starts so it doesn't reshuffle
-  // mid-game every time a result is recorded.
-  const queue = useMemo<QueueItem[]>(() => getReviewQueue(LIMIT), [sessionKey]);
+  // Snapshot the queue when the session starts (or the filter changes) so it
+  // doesn't reshuffle mid-game every time a result is recorded.
+  const queue = useMemo<QueueItem[]>(
+    () => getReviewQueue(LIMIT, { lessonSlug: lesson }),
+    [sessionKey, lesson],
+  );
   const summary = useMemo(() => getReviewSummary(), [tick]);
   const allStats = useMemo<PairStat[]>(() => getAllStats(), [tick]);
 
   const pairs = queue.map((q) => ({ en: q.en, ro: q.ro }));
   const origins = queue.map((q) => q.lessonSlug);
 
+  // Lessons the user actually has stats for — only show those in the filter.
+  const lessonsWithStats = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const s of allStats) {
+      if (s.misses > 0 || s.reveals > 0 || s.hints > 0) {
+        counts.set(s.lessonSlug, (counts.get(s.lessonSlug) ?? 0) + 1);
+      }
+    }
+    return LESSONS.filter((l) => counts.has(l.slug)).map((l) => ({
+      slug: l.slug,
+      title: l.title,
+      emoji: l.emoji,
+      count: counts.get(l.slug) ?? 0,
+    }));
+  }, [allStats]);
+
   const topMistakes = [...allStats]
     .filter((s) => s.misses > 0 || s.reveals > 0)
+    .filter((s) => !lesson || s.lessonSlug === lesson)
     .sort((a, b) => b.misses + b.reveals * 2 - (a.misses + a.reveals * 2))
     .slice(0, 8);
+
+  function setLesson(next: string | undefined) {
+    navigate({ search: { lesson: next } });
+    setSessionKey((n) => n + 1);
+  }
+
+  const activeLesson = lesson ? LESSONS_BY_SLUG[lesson] : undefined;
+
 
   return (
     <div className="min-h-screen">
