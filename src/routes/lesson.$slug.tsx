@@ -161,8 +161,9 @@ function LessonPage() {
 
         {/* Mini-game */}
         <Section number="6" title="Mini-game: Match" subtitle="Match each English expression with its Romanian meaning.">
-          <MatchGame pairs={lesson.match} />
+          <MatchGame pairs={lesson.match} origins={lesson.slug} />
         </Section>
+
 
         <div className="mt-16 flex justify-between text-sm">
           <Link to="/" className="text-muted-foreground hover:text-primary">
