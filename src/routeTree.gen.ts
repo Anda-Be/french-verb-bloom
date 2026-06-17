@@ -9,19 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ReviewRouteImport } from './routes/review'
+import { Route as PracticeRouteImport } from './routes/practice'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as LessonSlugRouteImport } from './routes/lesson.$slug'
+import { Route as TenseSlugRouteImport } from './routes/tense.$slug'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReviewRoute = ReviewRouteImport.update({
-  id: '/review',
-  path: '/review',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -29,60 +29,60 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LessonSlugRoute = LessonSlugRouteImport.update({
-  id: '/lesson/$slug',
-  path: '/lesson/$slug',
+const TenseSlugRoute = TenseSlugRouteImport.update({
+  id: '/tense/$slug',
+  path: '/tense/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/review': typeof ReviewRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/lesson/$slug': typeof LessonSlugRoute
+  '/about': typeof AboutRoute
+  '/practice': typeof PracticeRoute
+  '/tense/$slug': typeof TenseSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/review': typeof ReviewRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/lesson/$slug': typeof LessonSlugRoute
+  '/about': typeof AboutRoute
+  '/practice': typeof PracticeRoute
+  '/tense/$slug': typeof TenseSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/review': typeof ReviewRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/lesson/$slug': typeof LessonSlugRoute
+  '/about': typeof AboutRoute
+  '/practice': typeof PracticeRoute
+  '/tense/$slug': typeof TenseSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/review' | '/sitemap.xml' | '/lesson/$slug'
+  fullPaths: '/' | '/about' | '/practice' | '/tense/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/review' | '/sitemap.xml' | '/lesson/$slug'
-  id: '__root__' | '/' | '/review' | '/sitemap.xml' | '/lesson/$slug'
+  to: '/' | '/about' | '/practice' | '/tense/$slug'
+  id: '__root__' | '/' | '/about' | '/practice' | '/tense/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ReviewRoute: typeof ReviewRoute
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  LessonSlugRoute: typeof LessonSlugRoute
+  AboutRoute: typeof AboutRoute
+  PracticeRoute: typeof PracticeRoute
+  TenseSlugRoute: typeof TenseSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/review': {
-      id: '/review'
-      path: '/review'
-      fullPath: '/review'
-      preLoaderRoute: typeof ReviewRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -92,11 +92,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lesson/$slug': {
-      id: '/lesson/$slug'
-      path: '/lesson/$slug'
-      fullPath: '/lesson/$slug'
-      preLoaderRoute: typeof LessonSlugRouteImport
+    '/tense/$slug': {
+      id: '/tense/$slug'
+      path: '/tense/$slug'
+      fullPath: '/tense/$slug'
+      preLoaderRoute: typeof TenseSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -104,20 +104,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ReviewRoute: ReviewRoute,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
-  LessonSlugRoute: LessonSlugRoute,
+  AboutRoute: AboutRoute,
+  PracticeRoute: PracticeRoute,
+  TenseSlugRoute: TenseSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
