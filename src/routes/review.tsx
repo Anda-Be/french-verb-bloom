@@ -117,7 +117,46 @@ function ReviewPage() {
           <Stat label="Total misses" value={summary.totalMisses} />
         </section>
 
+        {lessonsWithStats.length > 0 && (
+          <section className="mt-8">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2 className="font-serif text-lg text-foreground">Filter by lesson</h2>
+              {activeLesson && (
+                <button
+                  onClick={() => setLesson(undefined)}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Clear filter
+                </button>
+              )}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <FilterChip
+                label="All lessons"
+                count={summary.withMistakes}
+                active={!lesson}
+                onClick={() => setLesson(undefined)}
+              />
+              {lessonsWithStats.map((l) => (
+                <FilterChip
+                  key={l.slug}
+                  label={`${l.emoji} ${l.title}`}
+                  count={l.count}
+                  active={lesson === l.slug}
+                  onClick={() => setLesson(l.slug)}
+                />
+              ))}
+            </div>
+            {activeLesson && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Showing only pairs from <span className="text-foreground">{activeLesson.title}</span>.
+              </p>
+            )}
+          </section>
+        )}
+
         <section className="mt-10">
+
           {pairs.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
               <p className="font-serif text-2xl text-foreground">Nothing to review yet.</p>
