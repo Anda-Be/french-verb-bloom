@@ -66,6 +66,7 @@ function LessonPage() {
           </div>
           <h1 className="mt-3 font-serif text-5xl text-foreground">{lesson.title}</h1>
           <p className="mt-1 text-muted-foreground">{lesson.titleRo}</p>
+          <p className="mt-1 text-xs uppercase tracking-widest text-primary">{lesson.cefr}</p>
           <p className="mt-4 text-lg text-muted-foreground">{lesson.summary}</p>
         </header>
 
