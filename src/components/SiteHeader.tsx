@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader() {
   return (
@@ -41,6 +42,7 @@ export function SiteHeader() {
           >
             À propos
           </Link>
+          <ThemeToggle />
         </nav>
       </div>
     </header>
