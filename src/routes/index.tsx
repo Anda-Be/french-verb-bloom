@@ -12,13 +12,15 @@ export const Route = createFileRoute("/")({
         content:
           "Învață engleza așa cum o folosești cu adevărat: la restaurant, la aeroport, la interviu, cu prietenii sau online. Dialoguri, exerciții și mini-jocuri.",
       },
-      { property: "og:title", content: "English in Real Life" },
+      { property: "og:title", content: "English in Real Life — Învață engleza din situații reale" },
       {
         property: "og:description",
         content:
           "Engleza pe care chiar o folosești — situații reale, nu liste abstracte.",
       },
+      { property: "og:url", content: "https://french-verb-bloom.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://french-verb-bloom.lovable.app/" }],
   }),
   component: Home,
 });
