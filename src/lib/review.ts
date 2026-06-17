@@ -100,10 +100,14 @@ export function getAllStats(): PairStat[] {
 
 export type QueueItem = { en: string; ro: string; lessonSlug: string; score: number };
 
-export function getReviewQueue(limit = 12): QueueItem[] {
+export function getReviewQueue(
+  limit = 12,
+  opts: { lessonSlug?: string } = {},
+): QueueItem[] {
   const stats = getAllStats();
   const now = Date.now();
   return stats
+    .filter((s) => !opts.lessonSlug || s.lessonSlug === opts.lessonSlug)
     .map((s) => {
       const due = s.nextDueAt <= now;
       const score =
@@ -124,6 +128,7 @@ export function getReviewQueue(limit = 12): QueueItem[] {
       score,
     }));
 }
+
 
 export function getReviewSummary() {
   const stats = getAllStats();
