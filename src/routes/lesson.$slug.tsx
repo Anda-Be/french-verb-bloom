@@ -17,11 +17,6 @@ export const Route = createFileRoute("/lesson/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
-    const lesson = LESSONS_BY_SLUG[params.slug];
-    if (!lesson) throw notFound();
-    return { lesson };
-  },
   notFoundComponent: () => (
     <div className="min-h-screen">
       <SiteHeader />
@@ -38,7 +33,11 @@ export const Route = createFileRoute("/lesson/$slug")({
 });
 
 function LessonPage() {
-  const { lesson } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const lesson = LESSONS_BY_SLUG[slug];
+  if (!lesson) {
+    throw notFound();
+  }
 
   return (
     <div className="min-h-screen">
