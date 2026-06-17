@@ -8,13 +8,35 @@ export const Route = createFileRoute("/lesson/$slug")({
     const l = LESSONS_BY_SLUG[params.slug];
     const title = l ? `${l.title} — English in Real Life` : "Lecție — English in Real Life";
     const desc = l?.summary ?? "O lecție de engleză din viața reală.";
+    const url = `https://french-verb-bloom.lovable.app/lesson/${params.slug}`;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
       ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: l
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "LearningResource",
+                name: `${l.title} — ${l.titleRo}`,
+                description: l.summary,
+                inLanguage: ["ro", "en"],
+                educationalLevel: l.level,
+                learningResourceType: "Lesson",
+                teaches: l.cefr,
+                url,
+              }),
+            },
+          ]
+        : undefined,
     };
   },
   notFoundComponent: () => (
@@ -211,6 +233,7 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
               }
             }}
             placeholder="Răspuns…"
+            aria-label={`Răspunsul tău la exercițiul ${index}: ${ex.prompt}`}
             className="flex-1 min-w-[160px] rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
           />
           <button
@@ -256,6 +279,7 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
               }
             }}
             placeholder="Rescrierea ta în engleză…"
+            aria-label={`Rescrierea ta în engleză la exercițiul ${index}`}
             className="flex-1 min-w-[200px] rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
           />
           <button
@@ -330,6 +354,7 @@ function FreeResponse({ prompt, hint }: { prompt: string; hint: string }) {
         }}
         rows={4}
         placeholder="Scrie aici în engleză…"
+        aria-label={`Răspuns liber în engleză: ${prompt}`}
         className="mt-3 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
       />
       <div className="mt-2 flex items-center justify-between">
