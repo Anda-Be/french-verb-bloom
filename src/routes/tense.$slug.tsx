@@ -101,7 +101,7 @@ function TensePage() {
             {tense.conjugations.map((c) => (
               <div
                 key={c.infinitive}
-                className="rounded-xl border border-border bg-card p-5 shadow-sm"
+                className="rounded-xl border border-border bg-[oklch(0.97_0.02_15)] p-5 shadow-sm"
               >
                 <div className="flex items-baseline justify-between border-b border-border/60 pb-3">
                   <div>
