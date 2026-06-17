@@ -388,6 +388,8 @@ function buildHint(translation: string): string {
     .join("");
 }
 
+const MAX_WRONG = 3;
+
 function MatchGame({ pairs }: { pairs: MatchPair[] }) {
   const left = pairs.map((p, i) => ({ id: i, text: p.en }));
   const right = useMemo(() => {
@@ -398,30 +400,51 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
 
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
   const [matched, setMatched] = useState<Set<number>>(new Set());
+  const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [wrongRightId, setWrongRightId] = useState<number | null>(null);
   const [attempts, setAttempts] = useState<Record<number, number>>({});
   const [hintsFor, setHintsFor] = useState<Set<number>>(new Set());
   const [hintsUsedCount, setHintsUsedCount] = useState(0);
   const [totalAttempts, setTotalAttempts] = useState(0);
+  const [lastReveal, setLastReveal] = useState<number | null>(null);
 
   const allDone = matched.size === pairs.length;
   const wrongAttempts = Object.values(attempts).reduce((a, b) => a + b, 0);
-  const perfect = allDone && wrongAttempts === 0 && hintsUsedCount === 0;
+  const perfect = allDone && wrongAttempts === 0 && hintsUsedCount === 0 && revealed.size === 0;
 
   function reset() {
     setSelectedLeft(null);
     setMatched(new Set());
+    setRevealed(new Set());
     setWrongRightId(null);
     setAttempts({});
     setHintsFor(new Set());
     setHintsUsedCount(0);
     setTotalAttempts(0);
+    setLastReveal(null);
   }
 
   function pickLeft(id: number) {
     if (matched.has(id)) return;
     setSelectedLeft(id);
     setWrongRightId(null);
+    setLastReveal(null);
+  }
+
+  function revealAnswer(pairId: number) {
+    setMatched((m) => {
+      const next = new Set(m);
+      next.add(pairId);
+      return next;
+    });
+    setRevealed((r) => {
+      const next = new Set(r);
+      next.add(pairId);
+      return next;
+    });
+    setSelectedLeft(null);
+    setWrongRightId(null);
+    setLastReveal(pairId);
   }
 
   function pickRight(id: number) {
@@ -433,17 +456,21 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
       setMatched(next);
       setSelectedLeft(null);
       setWrongRightId(null);
+      setLastReveal(null);
     } else {
+      const currentLeft = selectedLeft;
       setWrongRightId(id);
-      setAttempts((a) => {
-        const nextCount = (a[selectedLeft] ?? 0) + 1;
-        // Auto-reveal hint after 2 wrong attempts on the same pair
-        if (nextCount >= 2 && !hintsFor.has(selectedLeft)) {
-          setHintsFor((h) => new Set(h).add(selectedLeft));
-          setHintsUsedCount((n) => n + 1);
-        }
-        return { ...a, [selectedLeft]: nextCount };
-      });
+      const nextCount = (attempts[currentLeft] ?? 0) + 1;
+      setAttempts((a) => ({ ...a, [currentLeft]: nextCount }));
+
+      if (nextCount >= MAX_WRONG) {
+        // Out of attempts — reveal the full correct answer for this pair.
+        setTimeout(() => revealAnswer(currentLeft), 500);
+      } else if (nextCount >= 2 && !hintsFor.has(currentLeft)) {
+        // Auto-reveal masked hint after 2 wrong attempts.
+        setHintsFor((h) => new Set(h).add(currentLeft));
+        setHintsUsedCount((n) => n + 1);
+      }
       setTimeout(() => setWrongRightId((cur) => (cur === id ? null : cur)), 600);
     }
   }
@@ -459,16 +486,20 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
       ? buildHint(pairs[selectedLeft].ro)
       : null;
 
+  const attemptsLeft =
+    selectedLeft !== null ? MAX_WRONG - (attempts[selectedLeft] ?? 0) : 0;
+
   return (
     <div className="rounded-2xl border border-border bg-card p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm text-muted-foreground">
-          Click an English expression, then its Romanian meaning.
+          Click an English expression, then its Romanian meaning. You have {MAX_WRONG} tries per pair.
         </p>
         <div className="flex items-center gap-3 text-xs">
           <span className="text-muted-foreground">
             {matched.size}/{pairs.length} · {wrongAttempts} miss{wrongAttempts === 1 ? "" : "es"}
             {hintsUsedCount > 0 && ` · ${hintsUsedCount} hint${hintsUsedCount === 1 ? "" : "s"}`}
+            {revealed.size > 0 && ` · ${revealed.size} revealed`}
           </span>
           <button
             onClick={revealHint}
@@ -491,11 +522,21 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
               · hint: <span className="font-mono text-primary">{selectedHint}</span>
             </span>
           )}
-          {(attempts[selectedLeft] ?? 0) > 0 && !selectedHint && (
+          {(attempts[selectedLeft] ?? 0) > 0 && (
             <span className="ml-2 text-destructive">
-              · {attempts[selectedLeft]} wrong — try again or use a hint
+              · {attempts[selectedLeft]}/{MAX_WRONG} wrong
+              {attemptsLeft > 0 && ` · ${attemptsLeft} tr${attemptsLeft === 1 ? "y" : "ies"} left`}
             </span>
           )}
+        </div>
+      )}
+
+      {lastReveal !== null && (
+        <div className="mt-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs">
+          <span className="font-semibold text-amber-700 dark:text-amber-400">Answer revealed:</span>{" "}
+          <span className="font-serif text-foreground">{pairs[lastReveal].en}</span>
+          {" = "}
+          <span className="font-serif text-foreground">{pairs[lastReveal].ro}</span>
         </div>
       )}
 
@@ -503,6 +544,7 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
         <div className="space-y-2">
           {left.map((item) => {
             const done = matched.has(item.id);
+            const wasRevealed = revealed.has(item.id);
             const sel = selectedLeft === item.id;
             const wrongs = attempts[item.id] ?? 0;
             return (
@@ -512,7 +554,9 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
                 onClick={() => pickLeft(item.id)}
                 className={[
                   "w-full rounded-md border px-3 py-2 text-left text-sm transition-all flex items-center justify-between gap-2",
-                  done
+                  wasRevealed
+                    ? "border-amber-500/50 bg-amber-500/10 text-muted-foreground line-through"
+                    : done
                     ? "border-success bg-success/10 text-muted-foreground line-through"
                     : sel
                     ? "border-primary bg-primary/10 text-foreground"
@@ -520,16 +564,23 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
                 ].join(" ")}
               >
                 <span>{item.text}</span>
-                {!done && wrongs > 0 && (
-                  <span className="shrink-0 rounded-full bg-destructive/10 px-1.5 text-[10px] text-destructive">
-                    ×{wrongs}
-                  </span>
-                )}
-                {!done && hintsFor.has(item.id) && (
-                  <span className="shrink-0 text-[10px]" aria-label="hint used">
-                    💡
-                  </span>
-                )}
+                <span className="flex shrink-0 items-center gap-1">
+                  {!done && wrongs > 0 && (
+                    <span className="rounded-full bg-destructive/10 px-1.5 text-[10px] text-destructive">
+                      ×{wrongs}
+                    </span>
+                  )}
+                  {!done && hintsFor.has(item.id) && (
+                    <span className="text-[10px]" aria-label="hint used">
+                      💡
+                    </span>
+                  )}
+                  {wasRevealed && (
+                    <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400">
+                      revealed
+                    </span>
+                  )}
+                </span>
               </button>
             );
           })}
@@ -537,6 +588,7 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
         <div className="space-y-2">
           {right.map((item) => {
             const done = matched.has(item.id);
+            const wasRevealed = revealed.has(item.id);
             const isWrong = wrongRightId === item.id;
             return (
               <button
@@ -545,7 +597,9 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
                 onClick={() => pickRight(item.id)}
                 className={[
                   "w-full rounded-md border px-3 py-2 text-left text-sm transition-all",
-                  done
+                  wasRevealed
+                    ? "border-amber-500/50 bg-amber-500/10 text-muted-foreground line-through"
+                    : done
                     ? "border-success bg-success/10 text-muted-foreground line-through"
                     : isWrong
                     ? "border-destructive bg-destructive/10 text-foreground animate-pulse"
@@ -562,11 +616,16 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
       {allDone && (
         <div className="mt-4 rounded-xl border border-success/40 bg-success/5 p-4 text-center">
           <p className="font-serif text-lg text-success">
-            {perfect ? "🏆 Flawless run — you matched them all on the first try." : "🎉 All matched!"}
+            {perfect
+              ? "🏆 Flawless run — you matched them all on the first try."
+              : revealed.size > 0
+              ? "🎉 Round complete — review the revealed pairs above."
+              : "🎉 All matched!"}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
             {totalAttempts} total attempt{totalAttempts === 1 ? "" : "s"} · {wrongAttempts} miss
-            {wrongAttempts === 1 ? "" : "es"} · {hintsUsedCount} hint{hintsUsedCount === 1 ? "" : "s"} used
+            {wrongAttempts === 1 ? "" : "es"} · {hintsUsedCount} hint{hintsUsedCount === 1 ? "" : "s"} ·{" "}
+            {revealed.size} revealed
           </p>
           <button
             onClick={reset}
@@ -579,3 +638,4 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
     </div>
   );
 }
+
