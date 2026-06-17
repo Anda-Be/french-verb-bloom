@@ -49,9 +49,23 @@ function LessonPage() {
         </Link>
 
         <header className="mt-4">
-          <div className="text-5xl">{lesson.emoji}</div>
+          <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+            <img
+              src={lesson.image}
+              alt={`Ilustrație: ${lesson.titleRo}`}
+              width={1024}
+              height={1024}
+              className="aspect-[16/10] w-full object-cover"
+            />
+          </div>
+          <div className="mt-6 flex items-center gap-3">
+            <span className="text-4xl">{lesson.emoji}</span>
+            <span className="rounded-full border border-border px-2 py-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+              {lesson.level}
+            </span>
+          </div>
           <h1 className="mt-3 font-serif text-5xl text-foreground">{lesson.title}</h1>
-          <p className="mt-1 text-muted-foreground">{lesson.titleRo} · {lesson.level}</p>
+          <p className="mt-1 text-muted-foreground">{lesson.titleRo}</p>
           <p className="mt-4 text-lg text-muted-foreground">{lesson.summary}</p>
         </header>
 
