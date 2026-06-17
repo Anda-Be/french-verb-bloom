@@ -596,24 +596,27 @@ function MatchGame({ pairs }: { pairs: MatchPair[] }) {
             const wasRevealed = revealed.has(item.id);
             const isWrong = wrongRightId === item.id;
             return (
-              <button
-                key={item.id}
-                disabled={done}
-                onClick={() => pickRight(item.id)}
-                className={[
-                  "w-full rounded-md border px-3 py-2 text-left text-sm transition-all",
-                  wasRevealed
-                    ? "border-amber-500/50 bg-amber-500/10 text-muted-foreground line-through"
-                    : done
-                    ? "border-success bg-success/10 text-muted-foreground line-through"
-                    : isWrong
-                    ? "border-destructive bg-destructive/10 text-foreground animate-pulse"
-                    : "border-border bg-background hover:border-primary/60",
-                ].join(" ")}
-              >
-                {item.text}
-              </button>
+              <div key={item.id} className="flex items-center gap-2">
+                <button
+                  disabled={done}
+                  onClick={() => pickRight(item.id)}
+                  className={[
+                    "flex-1 rounded-md border px-3 py-2 text-left text-sm transition-all",
+                    wasRevealed
+                      ? "border-amber-500/50 bg-amber-500/10 text-muted-foreground line-through"
+                      : done
+                      ? "border-success bg-success/10 text-muted-foreground line-through"
+                      : isWrong
+                      ? "border-destructive bg-destructive/10 text-foreground animate-pulse"
+                      : "border-border bg-background hover:border-primary/60",
+                  ].join(" ")}
+                >
+                  {item.text}
+                </button>
+                <SpeakButton text={item.text} lang="ro-RO" />
+              </div>
             );
+
           })}
         </div>
       </div>
