@@ -80,6 +80,45 @@
   --ring: oklch(0.38 0.13 18);
 }
 
+.dark {
+  /* Deep navy background, warm parchment text */
+  --background: oklch(0.18 0.03 250);
+  --foreground: oklch(0.94 0.02 85);
+
+  /* Slightly lifted card surface, still rosé-tinted for continuity with light mode */
+  --card: oklch(0.26 0.035 15);
+  --card-foreground: oklch(0.95 0.015 85);
+
+  --popover: oklch(0.24 0.03 250);
+  --popover-foreground: oklch(0.95 0.015 85);
+
+  /* Warmer bordeaux so it reads on dark surfaces */
+  --primary: oklch(0.72 0.14 22);
+  --primary-foreground: oklch(0.16 0.03 250);
+
+  --secondary: oklch(0.28 0.03 250);
+  --secondary-foreground: oklch(0.94 0.02 85);
+
+  --muted: oklch(0.26 0.025 250);
+  --muted-foreground: oklch(0.72 0.02 80);
+
+  --bleu: oklch(0.7 0.14 255);
+  --or: oklch(0.82 0.13 80);
+
+  --accent: oklch(0.32 0.04 30);
+  --accent-foreground: oklch(0.95 0.02 85);
+
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+
+  --success: oklch(0.7 0.14 145);
+  --success-foreground: oklch(0.16 0.03 250);
+
+  --border: oklch(0.32 0.025 250);
+  --input: oklch(0.32 0.025 250);
+  --ring: oklch(0.72 0.14 22);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
