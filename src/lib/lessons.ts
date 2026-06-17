@@ -29,6 +29,7 @@ export type Lesson = {
   title: string;
   titleRo: string;
   emoji: string;
+  image: string;
   level: "Începător" | "Intermediar" | "Avansat";
   summary: string;
   dialog: DialogLine[];
@@ -44,6 +45,7 @@ export const LESSONS: Lesson[] = [
     title: "At the Restaurant",
     titleRo: "La restaurant",
     emoji: "🍝",
+    image: restaurantImg,
     level: "Începător",
     summary:
       "Cum comanzi mâncare, ceri nota și mulțumești chelnerului — fără să te bâlbâi.",
@@ -108,6 +110,7 @@ export const LESSONS: Lesson[] = [
     title: "At the Airport",
     titleRo: "La aeroport",
     emoji: "✈️",
+    image: airportImg,
     level: "Începător",
     summary: "Check-in, securitate, poarta de îmbarcare — supraviețuiește călătoriei.",
     dialog: [
@@ -170,6 +173,7 @@ export const LESSONS: Lesson[] = [
     title: "Job Interview",
     titleRo: "La interviu",
     emoji: "💼",
+    image: interviewImg,
     level: "Intermediar",
     summary: "Răspunsuri care sună profesionist — nu robotic.",
     dialog: [
@@ -234,6 +238,7 @@ export const LESSONS: Lesson[] = [
     title: "Chatting with Friends",
     titleRo: "Conversație cu prieteni",
     emoji: "☕",
+    image: friendsImg,
     level: "Începător",
     summary: "Engleza relaxată, cu slang ușor — așa cum vorbesc oamenii.",
     dialog: [
@@ -293,6 +298,7 @@ export const LESSONS: Lesson[] = [
     title: "Online: Chat & Email",
     titleRo: "Online: chat și email",
     emoji: "💬",
+    image: onlineImg,
     level: "Intermediar",
     summary: "De la mesaje rapide la email-uri profesionale — știi când e care.",
     dialog: [
@@ -352,6 +358,7 @@ export const LESSONS: Lesson[] = [
     title: "Social Media",
     titleRo: "Pe rețelele sociale",
     emoji: "📱",
+    image: socialImg,
     level: "Intermediar",
     summary: "Comentarii, DM-uri, caption-uri — engleza scurtă, punchy.",
     dialog: [
