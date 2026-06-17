@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LESSONS } from "@/lib/lessons";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
+import heroImg from "@/assets/hero-collage.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,24 +56,19 @@ function Home() {
               </div>
             </div>
 
-            {/* Mini dialog card */}
-            <div className="relative rounded-2xl border border-border bg-card p-6 shadow-sm">
-              <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-muted-foreground">
-                <span>Dialog · La restaurant</span>
-                <span className="text-primary">🍝</span>
-              </div>
-              <div className="mt-4 space-y-3 font-serif text-base">
-                <div>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">Waiter</div>
-                  <div className="text-foreground">Are you ready to order?</div>
-                </div>
-                <div>
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">You</div>
-                  <div className="text-foreground italic">I'll have the pasta, please.</div>
-                </div>
+            {/* Hero illustration */}
+            <div className="relative">
+              <div className="overflow-hidden rounded-3xl border border-border shadow-sm">
+                <img
+                  src={heroImg}
+                  alt="Ilustrație: scene din viața de zi cu zi în care vorbești engleză"
+                  width={1536}
+                  height={1024}
+                  className="aspect-[3/2] w-full object-cover"
+                />
               </div>
               <div className="absolute -right-3 -top-3 rounded-full bg-or px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground shadow">
-                Lecția 01
+                6 situații
               </div>
             </div>
           </div>
@@ -113,25 +109,37 @@ function Home() {
               key={l.slug}
               to="/lesson/$slug"
               params={{ slug: l.slug }}
-              className="group relative rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className="text-3xl">{l.emoji}</div>
-                  <div className="mt-3 font-serif text-2xl text-foreground group-hover:text-primary transition-colors">
-                    {l.title}
-                  </div>
-                  <div className="mt-0.5 text-xs uppercase tracking-widest text-muted-foreground">
-                    {l.titleRo}
-                  </div>
-                </div>
-                <span className="rounded-full border border-border px-2 py-1 text-[10px] uppercase tracking-wider text-muted-foreground">
-                  {l.level}
-                </span>
+              <div className="aspect-[4/3] overflow-hidden bg-secondary/40">
+                <img
+                  src={l.image}
+                  alt={`Ilustrație: ${l.titleRo}`}
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <p className="mt-3 text-sm text-muted-foreground line-clamp-2">{l.summary}</p>
-              <div className="mt-4 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                Începe lecția →
+              <div className="p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-2xl">{l.emoji}</div>
+                    <div className="mt-2 font-serif text-2xl text-foreground group-hover:text-primary transition-colors">
+                      {l.title}
+                    </div>
+                    <div className="mt-0.5 text-xs uppercase tracking-widest text-muted-foreground">
+                      {l.titleRo}
+                    </div>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-border px-2 py-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+                    {l.level}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm text-muted-foreground line-clamp-2">{l.summary}</p>
+                <div className="mt-4 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                  Începe lecția →
+                </div>
               </div>
             </Link>
           ))}
